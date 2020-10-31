@@ -1,4 +1,7 @@
+// user auth reducer
 import {
+  UserType,
+  UserDispatchTypes,
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
@@ -7,10 +10,20 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-} from "../constants/auth";
+} from "../actions/authActionTypes";
 
-let user = JSON.parse(localStorage.getItem("user"));
-const initialState = user
+const userObj = localStorage.getItem("user");
+const user: UserType = userObj !== null ? JSON.parse(userObj) : null;
+
+interface IDefaultState {
+  token?: string;
+  isAuthenticated?: boolean;
+  isLoading: boolean;
+  user?: UserType;
+}
+
+// const initialState: IDefaultState = user
+const initialState: any = user
   ? {
       token: localStorage.getItem("token"),
       isAuthenticated: true,
@@ -24,7 +37,12 @@ const initialState = user
       user: null,
     };
 
-const authReducer = (state = initialState, action) => {
+const authReducer = (
+  state: IDefaultState = initialState,
+  action: any
+  // ! figure out how to type setting token and user in localstorage
+  // action: UserDispatchTypes
+): IDefaultState => {
   switch (action.type) {
     case USER_LOADING:
       return {
@@ -42,6 +60,7 @@ const authReducer = (state = initialState, action) => {
 
     case LOGIN_SUCCESS:
     case REGISTER_SUCCESS:
+      console.log(action.payload);
       localStorage.setItem("token", action.payload.token);
       localStorage.setItem("user", JSON.stringify(action.payload.user));
       return {
@@ -59,8 +78,8 @@ const authReducer = (state = initialState, action) => {
       localStorage.removeItem("user");
       return {
         ...state,
-        token: null,
-        user: null,
+        token: undefined, // changed from null
+        user: undefined, // changed from null
         isAuthenticated: false,
         isLoading: false,
       };

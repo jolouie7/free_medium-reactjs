@@ -1,8 +1,9 @@
+import { RootStore } from "./../store";
+// user auth actions
 import backendHost from "../constants/api-config";
-import { returnErrors } from "./errorActions";
-import axios from "axios";
-
+import { Dispatch } from "redux";
 import {
+  UserDispatchTypes,
   USER_LOADING,
   USER_LOADED,
   AUTH_ERROR,
@@ -11,42 +12,40 @@ import {
   LOGOUT_SUCCESS,
   REGISTER_SUCCESS,
   REGISTER_FAIL,
-} from "../constants/auth";
-import { Dispatch } from "react";
-import { AnyAction } from "redux";
+} from "./authActionTypes";
+import axios from "axios";
 
-// Check token & load user
-export const loadUser = () => {
-  return (dispatch: Dispatch<AnyAction>, getState: any) => {
-    // User loading
-    dispatch({ type: USER_LOADING });
+// ****************************** Check token & load user ****************************** //
+export const loadUser = () => (
+  dispatch: Dispatch<UserDispatchTypes>,
+  getState: RootStore
+) => {
+  // User loading
+  dispatch({ type: USER_LOADING });
 
-    axios
-      .get(`${backendHost}/api/auth/user`, tokenConfig(getState))
-      .then((res) =>
-        dispatch({
-          type: USER_LOADED,
-          payload: res.data,
-        })
-      )
-      .catch((error) => {
-        dispatch(returnErrors(error.response.data, error.response.status));
-        dispatch({
-          type: AUTH_ERROR,
-        });
+  axios
+    .get(`${backendHost}/api/auth/user`, tokenConfig(getState))
+    .then((res) =>
+      dispatch({
+        type: USER_LOADED,
+        payload: res.data,
+      })
+    )
+    .catch((error) => {
+      // dispatch(returnErrors(error.response.data, error.response.status));
+      dispatch({
+        type: AUTH_ERROR,
       });
-  };
+    });
 };
 
-// interface User {
-//   name: string,
-//   username: string,
-//   email: string,
-//   password: string
-// }
-
-// Register User
-export const register = (User: { name: string, username: string, email: string, password: string }) => (dispatch: Dispatch<AnyAction>) => {
+// ****************************** Register User ****************************** //
+export const register = (
+  name: string,
+  username: string,
+  email: string,
+  password: string
+) => (dispatch: Dispatch<UserDispatchTypes>) => {
   // Headers
   const config = {
     headers: {
@@ -66,17 +65,19 @@ export const register = (User: { name: string, username: string, email: string, 
       })
     )
     .catch((err) => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
-      );
+      // dispatch(
+      //   returnErrors(err.response.data, err.response.status, "REGISTER_FAIL")
+      // );
       dispatch({
         type: REGISTER_FAIL,
       });
     });
 };
 
-// Login User
-export const login = ({ username, password }) => (dispatch) => {
+// ****************************** Login User ****************************** //
+export const login = (username: string, password: string) => (
+  dispatch: Dispatch<UserDispatchTypes>
+) => {
   // Headers
   const config = {
     headers: {
@@ -96,16 +97,16 @@ export const login = ({ username, password }) => (dispatch) => {
       })
     )
     .catch((err) => {
-      dispatch(
-        returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
-      );
+      // dispatch(
+      //   returnErrors(err.response.data, err.response.status, "LOGIN_FAIL")
+      // );
       dispatch({
         type: LOGIN_FAIL,
       });
     });
 };
 
-// Logout User
+// ****************************** Logout User ****************************** //
 export const logout = () => {
   // window.location.href = `/`;
   return {
@@ -113,15 +114,17 @@ export const logout = () => {
   };
 };
 
-// Setup config/headers and token
-export const tokenConfig = (getState) => {
+// ****************************** Setup config/headers and token ****************************** //
+export const tokenConfig = (getState: any) => {
   // Get token from localstorage
-  const token = getState().authReducer.token;
+  const token: string = getState().authReducer.token;
 
   // Headers
   const config = {
     headers: {
       "Content-type": "application/json",
+      // ! find out how to not have this key here and not get a TS error
+      "x-auth-token": "",
     },
   };
 

@@ -1,13 +1,15 @@
 // Assuming you have more then one reducer
 import { combineReducers } from "redux";
-// import itemReducer from "./itemReducer";
 import authReducer from "./authReducer";
-import usersReducer from "./usersReducer";
-import errorReducer from "./errorReducer";
+// import usersReducer from "./usersReducer";
+// import errorReducer from "./errorReducer";
 
-export default combineReducers({
-  // itemReducer,
+const rootReducer = combineReducers({
   authReducer,
-  errorReducer,
-  usersReducer,
+  // errorReducer,
+  // usersReducer,
 });
+
+// export type AppState = ReturnType<typeof rootReducer>
+
+export default rootReducer;
