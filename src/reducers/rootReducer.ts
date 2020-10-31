@@ -5,7 +5,7 @@ import authReducer from "./authReducer";
 // import errorReducer from "./errorReducer";
 
 const rootReducer = combineReducers({
-  authReducer,
+  auth: authReducer,
   // errorReducer,
   // usersReducer,
 });

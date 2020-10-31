@@ -60,7 +60,7 @@ const Login: React.FC = () => {
           />
         </Form.Group>
         <Button variant="primary" type="submit">
-          Submit
+          Sign In
         </Button>
       </Form>
     </Container>

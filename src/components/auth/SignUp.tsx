@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import Container from "react-bootstrap/Container";
+import { Link } from "react-router-dom";
 import { register } from "../../actions/authActions";
 
 const SignUp: React.FC = () => {
@@ -30,51 +34,59 @@ const SignUp: React.FC = () => {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <input
+    <Container>
+      <div style={{ textAlign: "center" }}>
+        <h3>Sign Up</h3>
+        <Link to="/login" style={{ color: "#5cb85c" }}>
+          Have an Account?
+        </Link>
+      </div>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group>
+          <Form.Label>Name</Form.Label>
+          <Form.Control
             type="text"
             name="name"
             value={name}
             placeholder="Name"
             onChange={handleChange}
           />
-        </div>
-        <div>
-          <label>Email</label>
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Email</Form.Label>
+          <Form.Control
             type="text"
             name="email"
             value={email}
             placeholder="Email"
             onChange={handleChange}
           />
-        </div>
-        <div>
-          <label>Username</label>
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Username</Form.Label>
+          <Form.Control
             type="text"
             name="username"
             value={username}
             placeholder="Username"
             onChange={handleChange}
           />
-        </div>
-        <div>
-          <label>Password</label>
-          <input
+        </Form.Group>
+        <Form.Group>
+          <Form.Label>Password</Form.Label>
+          <Form.Control
             type="password"
             name="password"
             value={password}
             placeholder="Password"
             onChange={handleChange}
           />
-        </div>
-        <button type="submit">Submit</button>
-      </form>
-    </div>
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Sign Up
+        </Button>
+      </Form>
+    </Container>
   );
 };
 
