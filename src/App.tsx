@@ -4,7 +4,8 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavbarComponent from "./components/Navbar";
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
-import Profile from './components/profile';
+import Profile from './components/Profile';
+import UserSettings from './components/UserSettings';
 
 function App() {
   return (
@@ -22,6 +23,9 @@ function App() {
         </Route>
         <Route exact path="/profile">
           <Profile />
+        </Route>
+        <Route exact path="/user-settings">
+          <UserSettings />
         </Route>
       </Switch>
     </Router>

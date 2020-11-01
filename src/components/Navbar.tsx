@@ -25,8 +25,8 @@ const NavbarComp: React.FC = () => {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
               <Nav.Link href="/">Home</Nav.Link>
-              <Nav.Link href="/create-post">New Post<FaRegEdit /></Nav.Link>
-              <Nav.Link href="/settings">Settings<FaCog /></Nav.Link>
+              <Nav.Link href="/create-post">New Post <FaRegEdit /></Nav.Link>
+              <Nav.Link href="/settings">Settings <FaCog /></Nav.Link>
               <Nav.Link href="/profile">{currentUser.username}</Nav.Link>
             </Nav>
           </Navbar.Collapse>
