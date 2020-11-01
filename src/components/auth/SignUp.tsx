@@ -55,7 +55,7 @@ const SignUp: React.FC = () => {
         <Form.Group>
           <Form.Label>Email</Form.Label>
           <Form.Control
-            type="text"
+            type="email"
             name="email"
             value={email}
             placeholder="Email"
