@@ -1,22 +1,43 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import { Link } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootStore } from '../store';
+import { logout } from '../actions/authActions';
 
-const UserSettings = () => {
+const UserSettings: React.FC = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
+  const auth = useSelector((state: RootStore) => state.auth)
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const currentUser = auth.user;
+
+  useEffect(() => {
+    if (currentUser) {
+      // setProfilePicture()
+      setUsername(currentUser.username);
+      // setBio(currentUser.bio);
+      setEmail(currentUser.email);
+    }
+  }, [])
+
 
   const handleChange = () => {
 
   }
   const handleSubmit = () => {
 
+  }
+
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push("/")
   }
 
   return (
@@ -30,8 +51,8 @@ const UserSettings = () => {
           <Form.Control
             type="text"
             name="name"
-            value={name}
-            placeholder="Name"
+            value="URL of profile picture"
+            placeholder="URL of profile picture"
             onChange={handleChange}
           />
         </Form.Group>
@@ -50,7 +71,7 @@ const UserSettings = () => {
           <Form.Control
             type="text"
             name="bio"
-            value={username}
+            value="Short bio about you"
             placeholder="Short bio about you"
             onChange={handleChange}
             as="textarea"
@@ -81,7 +102,9 @@ const UserSettings = () => {
         </Button>
       </Form>
       <hr />
-      <Button variant="outline-danger">Click here to logout</Button>
+      <Button variant="outline-danger" onClick={handleLogout}>
+        Click here to logout
+      </Button>
     </Container>
   );
 }

@@ -6,6 +6,7 @@ import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
 import Profile from './components/Profile';
 import UserSettings from './components/UserSettings';
+import ProtectedRoute from "./components/auth/ProtectedRoute";
 
 function App() {
   return (
@@ -21,12 +22,8 @@ function App() {
         <Route exact path="/signup">
           <SignUp />
         </Route>
-        <Route exact path="/profile">
-          <Profile />
-        </Route>
-        <Route exact path="/user-settings">
-          <UserSettings />
-        </Route>
+        <ProtectedRoute component={Profile} path="/profile" />
+        <ProtectedRoute component={UserSettings} path="/user-settings" />
       </Switch>
     </Router>
   );

@@ -1,12 +1,10 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "react-bootstrap/Navbar";
 import Nav from "react-bootstrap/Nav";
 import Container from "react-bootstrap/Container";
 import { FaCog, FaRegEdit } from "react-icons/fa";
 
-import { logout } from "../actions/authActions";
 import { RootStore } from "../store";
 
 const NavbarComp: React.FC = () => {
