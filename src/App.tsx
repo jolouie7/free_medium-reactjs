@@ -7,6 +7,7 @@ import SignUp from './components/auth/SignUp';
 import Profile from './components/Profile';
 import UserSettings from './components/UserSettings';
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import CreateArticle from './components/CreateArticle';
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
         <Route exact path="/signup">
           <SignUp />
         </Route>
+        <ProtectedRoute component={CreateArticle} path="/create-post" />
         <ProtectedRoute component={Profile} path="/profile" />
         <ProtectedRoute component={UserSettings} path="/user-settings" />
       </Switch>
