@@ -1,14 +1,16 @@
-// import types
+import { ARTICLE_LOADING, ARTICLE_FAIL, ARTICLE_SUCCESS, ArticleDispatchTypes, ArticleType } from './../actions/articleActionTypes';
 
 interface DefaultState {
-
+  articles: ArticleType[];
+  isLoading: boolean;
 }
 
 const initialState = {
-  articles: //type for array of articles
-}
+  articles: [],
+  isLoading: false,
+};
 
-const articleReducer = (state = initialState, action) => {
+const articleReducer = (state: DefaultState = initialState, action: ArticleDispatchTypes) => {
   switch (action.type) {
     case ARTICLE_LOADING:
       return {

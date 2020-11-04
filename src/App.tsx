@@ -1,15 +1,22 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavbarComponent from "./components/Navbar";
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
-import Profile from './components/Profile';
+import Profile from "./components/UserProfile";
 import UserSettings from './components/UserSettings';
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import CreateArticle from './components/CreateArticle';
+import { useDispatch } from 'react-redux';
+import { getArticles } from './actions/articleActions';
 
 function App() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getArticles());
+  }, [])
+
   return (
     <Router>
       <NavbarComponent /> <br />

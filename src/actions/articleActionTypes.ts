@@ -4,7 +4,7 @@ export const ARTICLE_LOADING = "ARTICLE_LOADING";
 export const ARTICLE_SUCCESS = "ARTICLE_SUCCESS";
 export const ARTICLE_FAIL = "ARTICLE_FAIL";
 
-interface ArticleType {
+export interface ArticleType {
   title: string;
   subTitle: string;
   content: string;
@@ -14,15 +14,15 @@ interface ArticleType {
   following: UserType; // getting the type of the user obj
 }
 
-interface ArticleLoading {
+export interface ArticleLoading {
   type: typeof ARTICLE_LOADING
 }
 
-interface ArticleFail {
+export interface ArticleFail {
   type: typeof ARTICLE_FAIL
 }
 
-interface ArticleSuccess {
+export interface ArticleSuccess {
   type: typeof ARTICLE_SUCCESS,
   payload: ArticleType
 }
