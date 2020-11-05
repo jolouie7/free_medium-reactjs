@@ -1,4 +1,4 @@
-import { ARTICLE_LOADING, ARTICLE_FAIL, ARTICLE_SUCCESS, ArticleDispatchTypes, ArticleType } from './../actions/articleActionTypes';
+import { ARTICLE_LOADING, ARTICLE_FAIL, GET_ARTICLES, ADD_ARTICLES, UPDATE_ARTICLES, DELETE_ARTICLES, ArticleDispatchTypes, ArticleType } from './../actions/articleActionTypes';
 
 interface DefaultState {
   articles: ArticleType[];
@@ -16,21 +16,46 @@ const articleReducer = (state: DefaultState = initialState, action: ArticleDispa
       return {
         ...state,
         isLoading: true,
-      }
+      };
 
-    case ARTICLE_SUCCESS:
+    case GET_ARTICLES:
       return {
         ...state,
         isLoading: false,
-        articles: action.payload
-      }
+        articles: action.payload,
+      };
+
+    case ADD_ARTICLES:
+      return {
+        ...state,
+        isLoading: false,
+        articles: [...state.articles, action.payload],
+      };
+
+    case UPDATE_ARTICLES:
+      // ! Either filter everything except the updated article and add it in later or
+      // ! find the _id of the article and mutate the articles in state
+      return {
+        ...state,
+        articles: state.articles.filter(
+          (article) => article._id !== action.payload
+        ),
+      };
+
+    case DELETE_ARTICLES:
+      return {
+        ...state,
+        expenses: state.articles.filter(
+          (article) => article._id !== action.payload
+        ),
+      };
 
     case ARTICLE_FAIL:
       return {
         ...state,
         isLoading: false,
-        articles: []
-      }
+        articles: [],
+      };
 
     default:
       return state;

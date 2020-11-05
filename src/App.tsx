@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/auth/ProtectedRoute";
 import CreateArticle from './components/CreateArticle';
 import { useDispatch } from 'react-redux';
 import { getArticles } from './actions/articleActions';
+import HomePage from './containers/HomePage';
 
 function App() {
   const dispatch = useDispatch();
@@ -22,7 +23,7 @@ function App() {
       <NavbarComponent /> <br />
       <Switch>
         <Route exact path="/">
-          <div>Hello World</div>
+          <HomePage />
         </Route>
         <Route exact path="/login">
           <Login />

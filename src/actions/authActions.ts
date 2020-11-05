@@ -119,7 +119,7 @@ export const logout = () => {
 // ****************************** Setup config/headers and token ****************************** //
 export const tokenConfig = (getState: any) => {
   // Get token from localstorage
-  const token: string = getState().authReducer.token;
+  const token: string = getState().auth.token;
 
   // Headers
   const config = {
