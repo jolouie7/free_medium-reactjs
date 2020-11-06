@@ -11,11 +11,13 @@ import CreateArticle from './components/CreateArticle';
 import { useDispatch } from 'react-redux';
 import { getArticles } from './actions/articleActions';
 import HomePage from './containers/HomePage';
+import { getAllUsers } from './actions/usersActions';
 
 function App() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getArticles());
+    dispatch(getAllUsers());
   }, [])
 
   return (
