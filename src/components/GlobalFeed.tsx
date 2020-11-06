@@ -4,13 +4,26 @@ import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
 import { useSelector } from 'react-redux';
 import { RootStore } from '../store';
+import { ArticleType } from '../actions/articleActionTypes';
+import { Link } from 'react-router-dom';
 
 const GlobalFeed: React.FC = () => {
   const articles: any = useSelector((state: RootStore) => state.articles);
+  const users: any = useSelector((state: RootStore) => state.users);
   const [isLoading, setisLoading] = useState(false)
-  console.log(articles)
+  const allUsers = users.users;
+  console.log(allUsers);
   const allArticles = articles.articles
-  console.log(allArticles);
+  console.log(allArticles)
+
+  // This function finds and displays the username of the person who wrote the article
+  const displayUsername = (article: ArticleType) => {
+    const articleUserWrote = allUsers.find((user: any) => user._id === article.user);
+    console.log(articleUserWrote)
+    return (
+      <div>{articleUserWrote.username}</div>
+    )
+  }
   return (
     <div>
       {allArticles.length === 0 && <div>Loading...</div>}
@@ -21,7 +34,7 @@ const GlobalFeed: React.FC = () => {
               <Row className="mt-5 mb-3">
                 <Col className="col-auto">Profile Pic</Col>
                 <Col>
-                  <div>Username</div>
+                  <div>{allUsers.length !== 0 && displayUsername(article)}</div>
                   <div>{article.createdAt}</div>
                 </Col>
                 <Col className="col-auto ml-auto">
@@ -35,7 +48,9 @@ const GlobalFeed: React.FC = () => {
                 <Col>{article.subTitle}</Col>
               </Row>
               <Row className="mt-3">
-                <Col>Read more...</Col>
+                <Col>
+                  <Link to="/">Read more...</Link>
+                </Col>
               </Row>
             </Container>
             <hr />

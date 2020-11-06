@@ -14,6 +14,7 @@ export interface ArticleType {
   content: string;
   tags: string[];
   likes: string[];
+  user: string;
   registerDate: Date;
   following: UserType; // getting the type of the user obj
 }
