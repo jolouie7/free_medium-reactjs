@@ -5,6 +5,7 @@ import {
   ArticleDispatchTypes,
   ARTICLE_LOADING,
   GET_ARTICLES,
+  GET_ARTICLE,
   ADD_ARTICLES,
   UPDATE_ARTICLES,
   DELETE_ARTICLES,
@@ -37,25 +38,25 @@ export const getArticles = () => (
 };
 
 // ****************************** Get one article ****************************** //
-// ! might not actually need
-export const getOneArticle = (id: string) => (
+export const getOneArticle = (slug: string) => (
   dispatch: Dispatch<ArticleDispatchTypes>,
   // typing a function type
   // https://stackoverflow.com/questions/29689966/typescript-how-to-define-type-for-a-function-callback-as-any-function-type-no
-  getState: () => void
+  getState: () => void,
 ) => {
   dispatch({ type: ARTICLE_LOADING });
   axios
-    .get(`${backendHost}/api/articles/${id}`)
+    .get(`${backendHost}/api/articles/${slug}`)
     .then((res) =>
       dispatch({
-        type: GET_ARTICLES,
+        type: GET_ARTICLE,
         payload: res.data,
       })
     )
     .catch((error) => {
       dispatch({
         type: ARTICLE_FAIL,
+        // payload: null
       });
     });
 };
@@ -80,6 +81,7 @@ export const createArticle = (
 
   // Request body
   const body = JSON.stringify({ title, subTitle, content, tags, user });
+  console.log(body)
 
   dispatch({ type: ARTICLE_LOADING });
   axios

@@ -2,6 +2,7 @@ import { UserType } from './authActionTypes';
 
 export const ARTICLE_LOADING = "ARTICLE_LOADING";
 export const GET_ARTICLES = "GET_ARTICLES";
+export const GET_ARTICLE = "GET_ARTICLE";
 export const ADD_ARTICLES = "ADD_ARTICLES";
 export const UPDATE_ARTICLES = "UPDATE_ARTICLES";
 export const DELETE_ARTICLES = "DELETE_ARTICLES";
@@ -17,6 +18,7 @@ export interface ArticleType {
   user: string;
   registerDate: Date;
   following: UserType; // getting the type of the user obj
+  slug: string;
 }
 
 export interface ArticleLoading {
@@ -30,6 +32,7 @@ export interface ArticleFail {
 export interface ArticleSuccess {
   type:
     | typeof GET_ARTICLES
+    | typeof GET_ARTICLE
     | typeof ADD_ARTICLES
     | typeof UPDATE_ARTICLES
     | typeof DELETE_ARTICLES

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavbarComponent from "./components/Navbar";
@@ -12,8 +12,9 @@ import { useDispatch } from 'react-redux';
 import { getArticles } from './actions/articleActions';
 import HomePage from './containers/HomePage';
 import { getAllUsers } from './actions/usersActions';
+import Article from './components/Article';
 
-function App() {
+const App: React.FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getArticles());
@@ -32,6 +33,9 @@ function App() {
         </Route>
         <Route exact path="/signup">
           <SignUp />
+        </Route>
+        <Route exact path="/articles/:id">
+          <Article />
         </Route>
         <ProtectedRoute component={CreateArticle} path="/create-post" />
         <ProtectedRoute component={Profile} path="/profile" />

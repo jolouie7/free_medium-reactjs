@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../store';
 import { ArticleType } from '../actions/articleActionTypes';
 import { Link } from 'react-router-dom';
@@ -23,6 +23,10 @@ const GlobalFeed: React.FC = () => {
     return (
       <div>{articleUserWrote.username}</div>
     )
+  }
+
+  const handleClick: any = (article: ArticleType) => {
+    localStorage.setItem("articleInfo", JSON.stringify(article));
   }
   return (
     <div>
@@ -49,7 +53,9 @@ const GlobalFeed: React.FC = () => {
               </Row>
               <Row className="mt-3">
                 <Col>
-                  <Link to="/">Read more...</Link>
+                  <Link to={`/articles/${article.slug}`} onClick={() => handleClick(article)} >
+                    Read more...
+                  </Link>
                 </Col>
               </Row>
             </Container>
