@@ -5,17 +5,22 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../store";
 import { ArticleType } from "../actions/articleActionTypes";
 import moment from "moment";
+import { deleteArticle, updateArticle } from "../actions/articleActions";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import authReducer from "../reducers/authReducer";
 
 const Article: React.FC = () => {
+  const history  = useHistory();
+  const dispatch = useDispatch();
   const users: any = useSelector((state: RootStore) => state.users);
   const auth: any = useSelector((state: RootStore) => state.auth);
   const allUsers = users.users;
 
-  // save article info in localstorage to persist data after refresh
+  // get article info from localstorage to persist data after refresh
   const articleInfo: any = localStorage.getItem("articleInfo");
   const article = JSON.parse(articleInfo);
 
@@ -28,7 +33,11 @@ const Article: React.FC = () => {
     return <div>{articleUserWrote.username}</div>;
   };
 
-  const permitUserToEditAndDelete = auth.user.id === article.user;
+  const handleClick = () => {
+    dispatch(deleteArticle(article._id))
+    history.push("/")
+    window.location.reload();
+  }
 
   return (
     <div>
@@ -43,13 +52,20 @@ const Article: React.FC = () => {
                 {moment(article.createdAt).format("dddd, MMMM Do YYYY")}
               </div>
             </Col>
-            {permitUserToEditAndDelete && (
+            {auth.user && auth.user.id === article.user && (
               <>
                 <Col className="col-auto">
-                  <Button variant="outline-secondary">Edit Article</Button>
+                  <Link
+                    style={{ textDecoration: "none", color: "inherit" }}
+                    to={`/editor/${article.slug}`}
+                  >
+                    <Button variant="outline-secondary">Edit Article</Button>
+                  </Link>
                 </Col>
                 <Col>
-                  <Button variant="outline-danger">Delete Article</Button>
+                  <Button variant="outline-danger" onClick={handleClick}>
+                    Delete Article
+                  </Button>
                 </Col>
               </>
             )}

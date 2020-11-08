@@ -105,18 +105,29 @@ export const createArticle = (
 // ****************************** Update an article ****************************** //
 // ? Do I need to pass in userID?
 // ! test
-export const updateArticle = (title: string, subTitle: string, content: string, tags: string, id: string) => (
-  dispatch: Dispatch<ArticleDispatchTypes>,
-  getState: () => void
-) => {
+export const updateArticle = (
+  title: string,
+  subTitle: string,
+  content: string,
+  tags: string[],
+  id: string,
+  slug: string,
+) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
   // Have the unchanged info be passed from the component to this action
   const articleToUpdate = {
-    title: title, subTitle: subTitle, content: content, tags: tags,
-  }
+    title: title,
+    subTitle: subTitle,
+    content: content,
+    tags: tags,
+  };
   dispatch({ type: ARTICLE_LOADING });
   // tokenConfig(getState), is attaching the token to the request in the header
   axios
-    .patch(`${backendHost}/api/articles/${id}`, articleToUpdate, tokenConfig(getState))
+    .patch(
+      `${backendHost}/api/articles/${id}`,
+      articleToUpdate,
+      tokenConfig(getState)
+    )
     .then((res) =>
       dispatch({
         type: UPDATE_ARTICLES,
@@ -124,6 +135,7 @@ export const updateArticle = (title: string, subTitle: string, content: string, 
       })
     )
     .catch((error) => {
+      console.log(error)
       // dispatch(returnErrors(error.response.data, error.response.status));
       dispatch({
         type: ARTICLE_FAIL,

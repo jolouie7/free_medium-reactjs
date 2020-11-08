@@ -1,20 +1,25 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import Container from "react-bootstrap/Container";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootStore } from '../store';
-import { createArticle } from '../actions/articleActions';
-import { useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from "react-redux";
+import { RootStore } from "../store";
+import { updateArticle } from "../actions/articleActions";
+import { useHistory } from "react-router-dom";
 
-const CreateArticle: React.FC = () => {
+const EditArticle: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const auth = useSelector((state: RootStore) => state.auth);
-  const [title, setTitle] = useState("");
-  const [subTitle, setSubTitle] = useState("");
-  const [content, setContent] = useState("");
-  const [tags, setTags] = useState("");
+
+  // get article info from localstorage to persist data after refresh
+  const articleInfo: any = localStorage.getItem("articleInfo");
+  const article = JSON.parse(articleInfo);
+
+  const [title, setTitle] = useState(article.title);
+  const [subTitle, setSubTitle] = useState(article.subTitle);
+  const [content, setContent] = useState(article.content);
+  const [tags, setTags] = useState(article.tags);
 
   const currentUser = auth.user;
 
@@ -26,19 +31,24 @@ const CreateArticle: React.FC = () => {
     } else if (event.target.name === "content") {
       setContent(event.target.value);
     } else if (event.target.name === "tags") {
-      setTags(event.target.value);
+      setTags([...tags, event.target.value]);
     }
   };
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     if (currentUser) {
-      dispatch(createArticle(title, subTitle, content, tags, currentUser.id));
+      dispatch(
+        updateArticle(title, subTitle, content, tags, article._id, article.slug)
+      );
       history.push("/");
+      window.location.reload();
     } else {
-      console.log("Could not create the article")
+      console.log("Could not create the article");
     }
   };
+
+  // console.log(article)
 
   return (
     <Container>
@@ -88,4 +98,4 @@ const CreateArticle: React.FC = () => {
   );
 }
 
-export default CreateArticle
+export default EditArticle
