@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../store';
 import { ArticleType } from '../actions/articleActionTypes';
 import { Link } from 'react-router-dom';
+import moment from "moment";
 
 const GlobalFeed: React.FC = () => {
   const articles: any = useSelector((state: RootStore) => state.articles);
@@ -38,8 +39,10 @@ const GlobalFeed: React.FC = () => {
               <Row className="mt-5 mb-3">
                 <Col className="col-auto">Profile Pic</Col>
                 <Col>
-                  <div>{allUsers.length !== 0 && displayUsername(article)}</div>
-                  <div>{article.createdAt}</div>
+                  {allUsers.length !== 0 && displayUsername(article)}
+                  <div>
+                    {moment(article.createdAt).format("dddd, MMMM Do YYYY")}
+                  </div>
                 </Col>
                 <Col className="col-auto ml-auto">
                   Likes: {article.likes.length}
@@ -53,7 +56,10 @@ const GlobalFeed: React.FC = () => {
               </Row>
               <Row className="mt-3">
                 <Col>
-                  <Link to={`/articles/${article.slug}`} onClick={() => handleClick(article)} >
+                  <Link
+                    to={`/articles/${article.slug}`}
+                    onClick={() => handleClick(article)}
+                  >
                     Read more...
                   </Link>
                 </Col>
