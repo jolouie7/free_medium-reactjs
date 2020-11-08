@@ -12,6 +12,7 @@ import moment from "moment";
 
 const Article: React.FC = () => {
   const users: any = useSelector((state: RootStore) => state.users);
+  const auth: any = useSelector((state: RootStore) => state.auth);
   const allUsers = users.users;
 
   // save article info in localstorage to persist data after refresh
@@ -27,6 +28,8 @@ const Article: React.FC = () => {
     return <div>{articleUserWrote.username}</div>;
   };
 
+  const permitUserToEditAndDelete = auth.user.id === article.user;
+
   return (
     <div>
       <Jumbotron fluid>
@@ -34,12 +37,22 @@ const Article: React.FC = () => {
           <h1>{article.title}</h1>
           <Row>
             <Col className="col-auto">User Profile Pic</Col>
-            <Col>
+            <Col className="col-auto">
               {allUsers.length !== 0 && displayUsername(article)}
               <div>
                 {moment(article.createdAt).format("dddd, MMMM Do YYYY")}
               </div>
             </Col>
+            {permitUserToEditAndDelete && (
+              <>
+                <Col className="col-auto">
+                  <Button variant="outline-secondary">Edit Article</Button>
+                </Col>
+                <Col>
+                  <Button variant="outline-danger">Delete Article</Button>
+                </Col>
+              </>
+            )}
           </Row>
         </Container>
       </Jumbotron>
