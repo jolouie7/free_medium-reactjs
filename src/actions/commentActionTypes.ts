@@ -9,6 +9,7 @@ export interface CommentType {
   content: string;
   article: ArticleType;
   user: UserType;
+  registerDate?: Date;
 }
 
 export interface CommentLoading {

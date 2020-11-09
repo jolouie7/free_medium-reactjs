@@ -16,7 +16,7 @@ export interface ArticleType {
   tags: string[];
   likes: string[];
   user: string;
-  registerDate: Date;
+  registerDate?: Date;
   following: UserType; // getting the type of the user obj
   slug: string;
 }
