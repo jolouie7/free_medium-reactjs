@@ -30,11 +30,19 @@ const Article: React.FC = () => {
   const article = JSON.parse(articleInfo);
 
   // This function finds and displays the username of the person who wrote the article
-  const displayUsername = (article: ArticleType) => {
+  const displayUsernameArticleAuthor = (article: ArticleType) => {
     const articleUserWrote = allUsers.find(
       (user: any) => user._id === article.user
     );
     return <div>{articleUserWrote.username}</div>;
+  };
+
+  // This function finds and displays the username of the person who wrote the comment
+  const displayUsernameCommentAuthor = (comment: CommentType) => {
+    const commentUserWrote = allUsers.find(
+      (user: any) => user._id === comment.user
+    );
+    return <Link style={{color:"inherit"}} to={`/${commentUserWrote.username}`}>{commentUserWrote.username}</Link>;
   };
 
   const handleClick = () => {
@@ -66,7 +74,7 @@ const Article: React.FC = () => {
           <Row>
             <Col className="col-auto">User Profile Pic</Col>
             <Col className="col-auto">
-              {allUsers.length !== 0 && displayUsername(article)}
+              {allUsers.length !== 0 && displayUsernameArticleAuthor(article)}
               <div>
                 {moment(article.registerDate).format("dddd, MMMM Do YYYY")}
               </div>
@@ -141,9 +149,11 @@ const Article: React.FC = () => {
                   <Row className="py-3 bg-secondary text-white">
                     <Col className="col-auto">
                       -
-                      {allUsers.length !== 0 &&
-                        allUsers.find((user: any) => user._id === comment.user)
-                          .username}
+                      {/* {allUsers.length !== 0 &&
+                          allUsers.find(
+                            (user: any) => user._id === comment.user
+                          ).username} */}
+                      {allUsers.length !== 0 && displayUsernameCommentAuthor(comment)}
                     </Col>
                     <Col>
                       {moment(comment.registerDate).format(
