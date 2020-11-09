@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import NavbarComponent from "./components/Navbar";
 import Login from './components/auth/Login';
 import SignUp from './components/auth/SignUp';
-import Profile from "./components/UserProfile";
+import CurrentUserProfile from "./components/UserProfile";
 import UserSettings from './components/UserSettings';
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import CreateArticle from './components/CreateArticle';
@@ -19,6 +19,7 @@ import { ArticleType } from './actions/articleActionTypes';
 import Axios from 'axios';
 import backendHost from './constants/api-config';
 import { getComments } from './actions/commentActions';
+import OtherUsersProfile from './components/OtherUsersProfile';
 
 const App: React.FC = () => {
   // const articles: any = useSelector((state: RootStore) => state.articles)
@@ -63,8 +64,11 @@ const App: React.FC = () => {
         <Route exact path="/editor/:id">
           <EditArticle />
         </Route>
+        <Route exact path="/profile/:username">
+          <OtherUsersProfile />
+        </Route>
         <ProtectedRoute component={CreateArticle} path="/create-post" />
-        <ProtectedRoute component={Profile} path="/profile" />
+        <ProtectedRoute component={CurrentUserProfile} path="/profile" />
         <ProtectedRoute component={UserSettings} path="/user-settings" />
       </Switch>
     </Router>

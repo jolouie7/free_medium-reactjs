@@ -22,7 +22,7 @@ const GlobalFeed: React.FC = () => {
     const articleUserWrote = allUsers.find((user: any) => user._id === article.user);
     // console.log(articleUserWrote)
     return (
-      <div>{articleUserWrote.username}</div>
+      <Link style={{ color: "inherit" }} to={`/profile/${articleUserWrote.username}`}>{articleUserWrote.username}</Link>
     )
   }
 

@@ -16,7 +16,7 @@ import { createComments, deleteComment } from "../actions/commentActions";
 import { FaTrashAlt } from "react-icons/fa";
 
 const Article: React.FC = () => {
-  const history  = useHistory();
+  const history = useHistory();
   const dispatch = useDispatch();
   const comments: any = useSelector((state: RootStore) => state.comments);
   const users: any = useSelector((state: RootStore) => state.users);
@@ -34,7 +34,11 @@ const Article: React.FC = () => {
     const articleUserWrote = allUsers.find(
       (user: any) => user._id === article.user
     );
-    return <div>{articleUserWrote.username}</div>;
+    return (
+      <Link style={{ color: "inherit" }} to={`/profile/${articleUserWrote.username}`}>
+        {articleUserWrote.username}
+      </Link>
+    );
   };
 
   // This function finds and displays the username of the person who wrote the comment
@@ -42,14 +46,21 @@ const Article: React.FC = () => {
     const commentUserWrote = allUsers.find(
       (user: any) => user._id === comment.user
     );
-    return <Link style={{color:"inherit"}} to={`/${commentUserWrote.username}`}>{commentUserWrote.username}</Link>;
+    return (
+      <Link
+        style={{ color: "inherit" }}
+        to={`/profile/${commentUserWrote.username}`}
+      >
+        {commentUserWrote.username}
+      </Link>
+    );
   };
 
   const handleClick = () => {
-    dispatch(deleteArticle(article._id))
-    history.push("/")
+    dispatch(deleteArticle(article._id));
+    history.push("/");
     window.location.reload();
-  }
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setContent(event.target.value);
@@ -64,7 +75,7 @@ const Article: React.FC = () => {
   const handleDeleteComment = (commentId: string) => {
     dispatch(deleteComment(commentId));
     window.location.reload();
-  }
+  };
 
   return (
     <div>
@@ -148,12 +159,13 @@ const Article: React.FC = () => {
                   </Row>
                   <Row className="py-3 bg-secondary text-white">
                     <Col className="col-auto">
-                      -
+                      -{" "}
                       {/* {allUsers.length !== 0 &&
                           allUsers.find(
                             (user: any) => user._id === comment.user
                           ).username} */}
-                      {allUsers.length !== 0 && displayUsernameCommentAuthor(comment)}
+                      {allUsers.length !== 0 &&
+                        displayUsernameCommentAuthor(comment)}
                     </Col>
                     <Col>
                       {moment(comment.registerDate).format(
