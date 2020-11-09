@@ -6,7 +6,7 @@ import TabNav from '../components/TabNav';
 
 const HomePage: React.FC = () => {
   return (
-    <div>
+    <div className="mt-3">
       <Container>
         <Row>
           <Col sm={10}>

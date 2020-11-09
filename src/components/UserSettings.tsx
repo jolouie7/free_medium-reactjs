@@ -41,7 +41,7 @@ const UserSettings: React.FC = () => {
   }
 
   return (
-    <Container>
+    <Container className="mt-4">
       <div style={{ textAlign: "center" }}>
         <h3>Your Settings</h3>
       </div>

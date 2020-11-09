@@ -41,7 +41,7 @@ const CreateArticle: React.FC = () => {
   };
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Control

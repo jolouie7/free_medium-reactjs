@@ -13,14 +13,14 @@ const GlobalFeed: React.FC = () => {
   const users: any = useSelector((state: RootStore) => state.users);
   const [isLoading, setisLoading] = useState(false)
   const allUsers = users.users;
-  console.log(allUsers);
+  // console.log(allUsers);
   const allArticles = articles.articles
-  console.log(allArticles)
+  // console.log(allArticles)
 
   // This function finds and displays the username of the person who wrote the article
   const displayUsername = (article: ArticleType) => {
     const articleUserWrote = allUsers.find((user: any) => user._id === article.user);
-    console.log(articleUserWrote)
+    // console.log(articleUserWrote)
     return (
       <div>{articleUserWrote.username}</div>
     )

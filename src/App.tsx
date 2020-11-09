@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import NavbarComponent from "./components/Navbar";
@@ -15,18 +15,36 @@ import { getAllUsers } from './actions/usersActions';
 import Article from './components/Article';
 import EditArticle from './components/EditArticle';
 import { RootStore } from './store';
+import { ArticleType } from './actions/articleActionTypes';
+import Axios from 'axios';
+import backendHost from './constants/api-config';
 
 const App: React.FC = () => {
-  // const articles = useSelector((state: RootStore) => state.articles)
+  // const articles: any = useSelector((state: RootStore) => state.articles)
+  // const allArticles = articles.articles;
+  const [articles, setArticles] = useState([]);
   const dispatch = useDispatch();
+
+  // const fetchArticles = useCallback(() => {
+  //   dispatch(getArticles());
+  // }, [dispatch]);
+
+  // const fetchArticles = async () => {
+  //   const res = await Axios.get(`${backendHost}/api/articles`)
+  //   setArticles(res.data)
+  // }
+
   useEffect(() => {
     dispatch(getArticles());
+    // fetchArticles();
     dispatch(getAllUsers());
   }, []);
 
+  // console.log(allArticles);
+
   return (
     <Router>
-      <NavbarComponent /> <br />
+      <NavbarComponent />
       <Switch>
         <Route exact path="/">
           <HomePage />

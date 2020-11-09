@@ -51,7 +51,7 @@ const EditArticle: React.FC = () => {
   // console.log(article)
 
   return (
-    <Container>
+    <Container className="mt-4">
       <Form onSubmit={handleSubmit}>
         <Form.Group>
           <Form.Control
