@@ -12,7 +12,8 @@ import moment from "moment";
 import { deleteArticle, updateArticle } from "../actions/articleActions";
 import { Link, Redirect, useHistory } from "react-router-dom";
 import { CommentType } from "../actions/commentActionTypes";
-import { createComments } from "../actions/commentActions";
+import { createComments, deleteComment } from "../actions/commentActions";
+import { FaTrashAlt } from "react-icons/fa";
 
 const Article: React.FC = () => {
   const history  = useHistory();
@@ -33,7 +34,6 @@ const Article: React.FC = () => {
     const articleUserWrote = allUsers.find(
       (user: any) => user._id === article.user
     );
-    console.log(articleUserWrote);
     return <div>{articleUserWrote.username}</div>;
   };
 
@@ -50,7 +50,13 @@ const Article: React.FC = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(createComments(content, article._id, auth.user.id));
+    setContent("");
   };
+
+  const handleDeleteComment = (commentId: string) => {
+    dispatch(deleteComment(commentId));
+    window.location.reload();
+  }
 
   return (
     <div>
@@ -120,22 +126,55 @@ const Article: React.FC = () => {
             </Form.Group>
           </Form>
         )}
+
         {/* If there are comments for this article get the comments that belong to this article */}
         {comments.comments.length !== 0 &&
           comments.comments
             .filter((comment: CommentType) => comment.article === article._id)
-            .map((comment: CommentType) => (
-              <div>
+            .map((comment: CommentType, index: number) => (
+              <div className="mb-3" key={index}>
                 {/* Go through all the users and find the user who wrote this comment and display username */}
-                {comment.content} by{" "}
-                {
-                  allUsers.find((user: any) => user._id === comment.user)
-                    .username
-                }
-                , Date:{" "}
-                {moment(comment.registerDate).format("dddd, MMMM Do YYYY")}
+                <Container className="border">
+                  <Row className="p-3">
+                    <Col>{comment.content}</Col>
+                  </Row>
+                  <Row className="py-3 bg-secondary text-white">
+                    <Col className="col-auto">
+                      -
+                      {allUsers.length !== 0 &&
+                        allUsers.find((user: any) => user._id === comment.user)
+                          .username}
+                    </Col>
+                    <Col>
+                      {moment(comment.registerDate).format(
+                        "dddd, MMMM Do YYYY"
+                      )}
+                    </Col>
+                    {auth.user && auth.user.id === comment.user && (
+                      <Col className="ml-auto col-auto">
+                        <FaTrashAlt
+                          onClick={() => handleDeleteComment(comment._id)}
+                        />
+                      </Col>
+                    )}
+                  </Row>
+                </Container>
               </div>
             ))}
+        {/* <Container className="border">
+          <Row className="p-3">
+            <Col>
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus
+              nisi ducimus similique beatae numquam soluta commodi in aliquid,
+              laboriosam alias, dolore veritatis libero nesciunt laborum
+              temporibus qui nam atque ipsam?
+            </Col>
+          </Row>
+          <Row className="p-3 mb-2 bg-secondary text-white">
+            <Col>-jojo Sunday, November 8th 2020</Col>
+            <FaTrashAlt />
+          </Row>
+        </Container> */}
       </Container>
     </div>
   );

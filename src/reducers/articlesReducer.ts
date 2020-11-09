@@ -54,7 +54,7 @@ const articleReducer = (state: DefaultState = initialState, action: ArticleDispa
     case DELETE_ARTICLES:
       return {
         ...state,
-        expenses: state.articles.filter(
+        articles: state.articles.filter(
           (article) => article._id !== action.payload
         ),
       };

@@ -3,6 +3,7 @@ import {
   COMMENT_FAIL,
   COMMENT_SUCCESS,
   CREATE_COMMENT,
+  DELETE_COMMENT,
   CommentDispatchTypes,
   CommentType,
 } from "../actions/commentActionTypes";
@@ -44,6 +45,12 @@ const commentReducer = (
         ...state,
         isLoading: false,
         comments: [...state.comments, action.payload],
+      };
+    case DELETE_COMMENT:
+      return {
+        ...state,
+        isLoading: false,
+        comments: state.comments.filter(comment => comment._id !== action.payload),
       };
 
     default:
