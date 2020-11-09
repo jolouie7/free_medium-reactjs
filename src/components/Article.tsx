@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Container from "react-bootstrap/Container";
 import Col from "react-bootstrap/Col";
@@ -11,14 +11,18 @@ import { ArticleType } from "../actions/articleActionTypes";
 import moment from "moment";
 import { deleteArticle, updateArticle } from "../actions/articleActions";
 import { Link, Redirect, useHistory } from "react-router-dom";
-import authReducer from "../reducers/authReducer";
+import { CommentType } from "../actions/commentActionTypes";
+import { createComments } from "../actions/commentActions";
 
 const Article: React.FC = () => {
   const history  = useHistory();
   const dispatch = useDispatch();
+  const comments: any = useSelector((state: RootStore) => state.comments);
   const users: any = useSelector((state: RootStore) => state.users);
   const auth: any = useSelector((state: RootStore) => state.auth);
   const allUsers = users.users;
+
+  const [content, setContent] = useState("");
 
   // get article info from localstorage to persist data after refresh
   const articleInfo: any = localStorage.getItem("articleInfo");
@@ -38,6 +42,15 @@ const Article: React.FC = () => {
     history.push("/")
     window.location.reload();
   }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setContent(event.target.value);
+  };
+
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    dispatch(createComments(content, article._id, auth.user.id));
+  };
 
   return (
     <div>
@@ -85,21 +98,34 @@ const Article: React.FC = () => {
         <hr />
       </Container>
       <Container>
-        <Form>
+        <Form onSubmit={handleSubmit}>
           <Form.Group>
             <Form.Control
               placeholder="Write a comment..."
               as="textarea"
               rows={3}
+              name="content"
+              value={content}
+              onChange={handleChange}
             />
             <Container
               style={{ backgroundColor: "#f5f5f5" }}
               className="py-3 text-right"
             >
-              <Button variant="primary">Post Comment</Button>
+              <Button variant="primary" type="submit">Post Comment</Button>
             </Container>
           </Form.Group>
         </Form>
+        {/* If there are comments for this article get the comments that belong to this article */}
+        {comments.comments.length !== 0 &&
+          comments.comments
+            .filter((comment: CommentType) => comment.article === article._id)
+            .map((comment: CommentType) => (
+              <div>
+                {/* Go through all the users and find the user who wrote this comment and display username */}
+                {comment.content} by {allUsers.find((user: any) => user._id === comment.user).username}
+              </div>
+            ))}
       </Container>
     </div>
   );

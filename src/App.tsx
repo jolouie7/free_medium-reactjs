@@ -18,6 +18,7 @@ import { RootStore } from './store';
 import { ArticleType } from './actions/articleActionTypes';
 import Axios from 'axios';
 import backendHost from './constants/api-config';
+import { getComments } from './actions/commentActions';
 
 const App: React.FC = () => {
   // const articles: any = useSelector((state: RootStore) => state.articles)
@@ -38,6 +39,7 @@ const App: React.FC = () => {
     dispatch(getArticles());
     // fetchArticles();
     dispatch(getAllUsers());
+    dispatch(getComments());
   }, []);
 
   // console.log(allArticles);

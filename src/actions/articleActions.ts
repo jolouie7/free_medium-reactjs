@@ -77,11 +77,8 @@ export const createArticle = (
     },
   };
 
-  console.log("inside create article")
-
   // Request body
   const body = JSON.stringify({ title, subTitle, content, tags, user });
-  console.log(body)
 
   dispatch({ type: ARTICLE_LOADING });
   axios

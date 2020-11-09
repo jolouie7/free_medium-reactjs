@@ -2,7 +2,6 @@ import { Dispatch } from 'redux';
 import backendHost from "../constants/api-config";
 // import { returnErrors } from "./errorActions";
 import axios from "axios";
-import { tokenConfig } from "./authActions";
 import {
   GET_ALL_USERS_LOADING,
   GET_ALL_USERS_SUCCESS,
@@ -32,5 +31,3 @@ export const getAllUsers = () => {
       });
   };
 };
-
-export {}
