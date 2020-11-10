@@ -107,6 +107,7 @@ export const updateArticle = (
   subTitle: string,
   content: string,
   tags: string[],
+  likes: string[],
   id: string,
   slug: string,
 ) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
@@ -116,6 +117,7 @@ export const updateArticle = (
     subTitle: subTitle,
     content: content,
     tags: tags,
+    likes: likes
   };
   dispatch({ type: ARTICLE_LOADING });
   // tokenConfig(getState), is attaching the token to the request in the header

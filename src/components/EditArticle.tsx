@@ -20,6 +20,7 @@ const EditArticle: React.FC = () => {
   const [subTitle, setSubTitle] = useState(article.subTitle);
   const [content, setContent] = useState(article.content);
   const [tags, setTags] = useState(article.tags);
+  const [likes, setLikes] = useState(article.likes);
 
   const currentUser = auth.user;
 
@@ -39,7 +40,7 @@ const EditArticle: React.FC = () => {
     event.preventDefault();
     if (currentUser) {
       dispatch(
-        updateArticle(title, subTitle, content, tags, article._id, article.slug)
+        updateArticle(title, subTitle, content, tags, likes, article._id, article.slug)
       );
       history.push("/");
       window.location.reload();

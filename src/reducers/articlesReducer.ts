@@ -1,13 +1,13 @@
 import { ARTICLE_LOADING, ARTICLE_FAIL, GET_ARTICLES, GET_ARTICLE, ADD_ARTICLES, UPDATE_ARTICLES, DELETE_ARTICLES, ArticleDispatchTypes, ArticleType } from './../actions/articleActionTypes';
 
 interface DefaultState {
-  article?: ArticleType[];
+  // article?: ArticleType[];
   articles: ArticleType[];
   isLoading: boolean;
 }
 
 const initialState = {
-  article: [],
+  // article: [],
   articles: [],
   isLoading: false,
 };
@@ -27,12 +27,12 @@ const articleReducer = (state: DefaultState = initialState, action: ArticleDispa
         articles: action.payload,
       };
 
-    case GET_ARTICLE:
-      return {
-        ...state,
-        isLoading: false,
-        article: action.payload,
-      };
+    // case GET_ARTICLE:
+    //   return {
+    //     ...state,
+    //     isLoading: false,
+    //     article: action.payload,
+    //   };
 
     case ADD_ARTICLES:
       return {
