@@ -1,8 +1,9 @@
 import { UserType } from './../actions/authActionTypes';
 import {
-  GET_ALL_USERS_LOADING,
+  USER_LOADING,
   GET_ALL_USERS_SUCCESS,
-  GET_ALL_USERS_FAIL,
+  USER_FAIL,
+  UPDATE_USER,
   UsersDispatchTypes,
 } from "../actions/usersActionTypes";
 
@@ -22,7 +23,7 @@ const usersReducer = (
   action: UsersDispatchTypes
 ) => {
   switch (action.type) {
-    case GET_ALL_USERS_LOADING:
+    case USER_LOADING:
       return {
         ...state,
         isLoading: true,
@@ -33,7 +34,14 @@ const usersReducer = (
         isLoading: false,
         users: action.payload,
       };
-    case GET_ALL_USERS_FAIL:
+    // ! find the _id/id of the user and mutate the users in state
+    case UPDATE_USER:
+      return {
+        ...state,
+        isLoading: false,
+        users: state.users.filter((user) => user.id !== action.payload),
+      };
+    case USER_FAIL:
       return {
         ...state,
         isLoading: false,

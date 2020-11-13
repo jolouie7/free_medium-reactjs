@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../store';
 import { Link } from 'react-router-dom';
 import moment from "moment";
-import { getArticles, updateArticle } from '../actions/articleActions';
+import { getArticles, likeArticle, unlikeArticle } from '../actions/articleActions';
 
 interface Props {
   article: ArticleType;
@@ -18,17 +18,8 @@ interface Props {
 const GlobalArticle: React.FC<Props> = ({article, index}) => {
   const dispatch = useDispatch();
   const auth: any = useSelector((state: RootStore) => state.auth);
-  const users: any = useSelector((state: RootStore) => state.users);
-  const allUsers = users.users;
+  const allUsers: any = useSelector((state: RootStore) => state.users.users);
   const [articleLikes, setArticleLikes] = useState(article.likes);
-
-  // useEffect(() => {
-  //   setArticleLikes(article.likes);
-  // }, []);
-
-  // useEffect(() => {
-  //   dispatch(getArticles());
-  // }, [articleLikes]);
 
   // This function finds and displays the username of the person who wrote the article
   const displayUsername = (article: ArticleType) => {
@@ -50,40 +41,56 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
     localStorage.setItem("articleInfo", JSON.stringify(article));
   };
 
+  // * HANDLE CLICK I MADE
+  // const handleLikeClick = (article: ArticleType) => {
+  //   console.log("handleLikeClick")
+  //   // If user is in the likes array and they click on the like button
+  //   if (auth.user && articleLikes.includes(auth.user.id)) {
+  //     // remove the user from the likes array
+  //     const removeUserFromLikesArray = article.likes.filter(
+  //       (like: string) => like !== auth.user.id
+  //     );
+  //     dispatch(
+  //       updateArticle(
+  //         article.title,
+  //         article.subTitle,
+  //         article.content,
+  //         article.tags,
+  //         removeUserFromLikesArray,
+  //         article._id,
+  //         article.slug
+  //       )
+  //     );
+  //     setArticleLikes(articleLikes.filter((user: string) => user !== auth.user.id));
+  //   } else if (auth.user && !articleLikes.includes(auth.user.id)) {
+  //     dispatch(
+  //       updateArticle(
+  //         article.title,
+  //         article.subTitle,
+  //         article.content,
+  //         article.tags,
+  //         [...article.likes, auth.user.id],
+  //         article._id,
+  //         article.slug
+  //       )
+  //     );
+  //     setArticleLikes([...articleLikes, auth.user.id]);
+  //     // setArticleLikes(articleLikes - 1);
+  //   }
+  // };
+  
   const handleLikeClick = (article: ArticleType) => {
-    console.log("handleLikeClick")
     // If user is in the likes array and they click on the like button
     if (auth.user && articleLikes.includes(auth.user.id)) {
-      // remove the user from the likes array
-      const removeUserFromLikesArray = article.likes.filter(
-        (like: string) => like !== auth.user.id
+      console.log("already in likes")
+      dispatch(unlikeArticle(article._id));
+      setArticleLikes(
+        articleLikes.filter((user: string) => user !== auth.user.id)
       );
-      dispatch(
-        updateArticle(
-          article.title,
-          article.subTitle,
-          article.content,
-          article.tags,
-          removeUserFromLikesArray,
-          article._id,
-          article.slug
-        )
-      );
-      setArticleLikes(articleLikes.filter((user: string) => user !== auth.user.id));
     } else if (auth.user && !articleLikes.includes(auth.user.id)) {
-      dispatch(
-        updateArticle(
-          article.title,
-          article.subTitle,
-          article.content,
-          article.tags,
-          [...article.likes, auth.user.id],
-          article._id,
-          article.slug
-        )
-      );
+      console.log("not in likes");
+      dispatch(likeArticle(article._id));
       setArticleLikes([...articleLikes, auth.user.id]);
-      // setArticleLikes(articleLikes - 1);
     }
   };
   

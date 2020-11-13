@@ -30,14 +30,11 @@ const Profile: React.FC = () => {
         // activeKey={key}
         // onSelect={(k) => setKey(k)}
         >
-          <Tab eventKey="home" title="Home">
-            <h1>Home</h1>
+          <Tab eventKey="my-articles" title="My Articles">
+            <h1>My Articles</h1>
           </Tab>
-          <Tab eventKey="profile" title="Profile">
-            <h1>Profile</h1>
-          </Tab>
-          <Tab eventKey="contact" title="Contact" disabled>
-            <h1>Contact</h1>
+          <Tab eventKey="liked-articles" title="Liked Articles">
+            <h1>Liked Articles</h1>
           </Tab>
         </Tabs>
       </Container>

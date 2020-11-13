@@ -100,7 +100,6 @@ export const createArticle = (
 };
 
 // ****************************** Update an article ****************************** //
-// ? Do I need to pass in userID?
 // ! test
 export const updateArticle = (
   title: string,
@@ -135,6 +134,70 @@ export const updateArticle = (
     )
     .catch((error) => {
       console.log(error)
+      // dispatch(returnErrors(error.response.data, error.response.status));
+      dispatch({
+        type: ARTICLE_FAIL,
+      });
+    });
+};
+
+// ****************************** Like article ****************************** //
+// ! tested
+export const likeArticle = (
+  id: string,
+) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
+  // Have the unchanged info be passed from the component to this action
+  const articleToUpdate = {
+    id: id
+  };
+  dispatch({ type: ARTICLE_LOADING });
+  // tokenConfig(getState), is attaching the token to the request in the header
+  axios
+    .put(
+      `${backendHost}/api/articles/like`,
+      articleToUpdate,
+      tokenConfig(getState)
+    )
+    .then((res) =>
+      dispatch({
+        type: UPDATE_ARTICLES,
+        payload: res.data,
+      })
+    )
+    .catch((error) => {
+      console.log(error);
+      // dispatch(returnErrors(error.response.data, error.response.status));
+      dispatch({
+        type: ARTICLE_FAIL,
+      });
+    });
+};
+
+// ****************************** Unlike article ****************************** //
+// ! test
+export const unlikeArticle = (
+  id: string,
+) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
+  // Have the unchanged info be passed from the component to this action
+  const articleToUpdate = {
+    id: id
+  };
+  dispatch({ type: ARTICLE_LOADING });
+  // tokenConfig(getState), is attaching the token to the request in the header
+  axios
+    .put(
+      `${backendHost}/api/articles/unlike`,
+      articleToUpdate,
+      tokenConfig(getState)
+    )
+    .then((res) =>
+      dispatch({
+        type: UPDATE_ARTICLES,
+        payload: res.data,
+      })
+    )
+    .catch((error) => {
+      console.log(error);
       // dispatch(returnErrors(error.response.data, error.response.status));
       dispatch({
         type: ARTICLE_FAIL,

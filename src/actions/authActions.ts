@@ -114,8 +114,6 @@ export const logout = () => {
   };
 };
 
-// ****************************** Update User ****************************** //
-
 // ****************************** Setup config/headers and token ****************************** //
 export const tokenConfig = (getState: any) => {
   // Get token from localstorage

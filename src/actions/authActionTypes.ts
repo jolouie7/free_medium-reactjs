@@ -9,16 +9,17 @@ export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
 export const REGISTER_FAIL = "REGISTER_FAIL";
 
 export type UserType = {
-  id: string
+  id?: any;
+  _id?: any;
   name: string;
   email: string;
   username: string;
   password?: string;
   bio?: string;
   image?: string;
-  likes?: [];
-  following?: [];
-  register_date?: Record<string, unknown>; // might want to fix this
+  likes?: string[];
+  following?: string[];
+  register_date?: Date; // might want to fix this
   token?: string;
 };
 
