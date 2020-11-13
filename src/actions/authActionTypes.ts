@@ -18,9 +18,10 @@ export type UserType = {
   bio?: string;
   image?: string;
   likes?: string[];
-  following?: string[];
   register_date?: Date; // might want to fix this
   token?: string;
+  followers: string[];
+  following: string[];
 };
 
 export interface UserLoading {

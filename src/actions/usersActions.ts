@@ -83,3 +83,59 @@ export const updateUser = (
       });
     });
 };
+
+// ****************************** Follow a user ****************************** //
+// ! test
+export const followUser = (
+  id: string,
+) => (dispatch: Dispatch<UsersDispatchTypes>, getState: () => void) => {
+  // Have the unchanged info be passed from the component to this action
+  const userToUpdate = {
+    id,
+  };
+  dispatch({ type: USER_LOADING });
+  // tokenConfig(getState), is attaching the token to the request in the header
+  axios
+    .put(`${backendHost}/api/users/follow`, userToUpdate, tokenConfig(getState))
+    .then((res) =>
+      dispatch({
+        type: UPDATE_USER,
+        payload: res.data,
+      })
+    )
+    .catch((error) => {
+      console.log(error);
+      // dispatch(returnErrors(error.response.data, error.response.status));
+      dispatch({
+        type: USER_FAIL,
+      });
+    });
+};
+
+// ****************************** Unfollow a user ****************************** //
+// ! test
+export const unfollowUser = (
+  id: string,
+) => (dispatch: Dispatch<UsersDispatchTypes>, getState: () => void) => {
+  // Have the unchanged info be passed from the component to this action
+  const userToUpdate = {
+    id,
+  };
+  dispatch({ type: USER_LOADING });
+  // tokenConfig(getState), is attaching the token to the request in the header
+  axios
+    .put(`${backendHost}/api/users/unfollow`, userToUpdate, tokenConfig(getState))
+    .then((res) =>
+      dispatch({
+        type: UPDATE_USER,
+        payload: res.data,
+      })
+    )
+    .catch((error) => {
+      console.log(error);
+      // dispatch(returnErrors(error.response.data, error.response.status));
+      dispatch({
+        type: USER_FAIL,
+      });
+    });
+};

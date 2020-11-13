@@ -7,7 +7,13 @@ import Tab from "react-bootstrap/Tab";
 import Container from "react-bootstrap/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../store";
-import { updateUser } from "../actions/usersActions";
+import {
+  getAllUsers,
+  updateUser,
+  followUser,
+  unfollowUser,
+} from "../actions/usersActions";
+import { UserType } from "../actions/authActionTypes";
 
 const OtherUsersProfile: React.FC = () => {
   const dispatch = useDispatch()
@@ -15,13 +21,13 @@ const OtherUsersProfile: React.FC = () => {
   const currentUser = useSelector((state: RootStore) => state.auth.user);
   const allUsers = useSelector((state: RootStore) => state.users.users);
   const user = allUsers.find((user) => user.username === username);
-  // const [follows, setFollows] = useState(user?.following);
-  const [isLoading, setIsLoading] = useState(false)
-  const [following, setFollowing] = useState<string[]>(user?.following!); // This might cause a problem
+  const [isLoading, setIsLoading] = useState(true)
+  const [followers, setFollowers] = useState([] as any); //keep type any to prevent an error in the useEffect
 
-  // console.log(currentUser)
-  // console.log(user)
-  // console.log(user?.following[0])
+  useEffect(() => {
+    setFollowers(user?.followers)
+    setIsLoading(false)
+  }, [user]) //when user goes from undefined to being populated
 
   //option 1: use useEffect and set following based on if the user.id is in the following array
   //option 2: Can you set false/true based on a condition in useState?
@@ -46,68 +52,102 @@ const OtherUsersProfile: React.FC = () => {
   //   setIsLoading(false);
   // }
 
+  // const displayFollowButton = () => {
+  //   if (isLoading === false && currentUser && followers.includes(currentUser.id)) {
+  //     return (
+  //       <Button variant="outline-secondary">
+  //         +Unfollow
+  //       </Button>
+  //     );
+  //   } else if (isLoading === false && currentUser && !followers.includes(currentUser.id)) {
+  //     return (
+  //       <Button variant="outline-secondary">
+  //         +Follow
+  //       </Button>
+  //     );
+  //   }
+  // }
+
+  // const handleClick = (user: any) => {
+  //   console.log("foo");
+  //   if (isLoading) {
+  //     console.log("loading true")
+  //     return <div>Loading...</div>
+  //   } else {}
+  //   // If user is in the likes array and they click on the like button
+  //   if (currentUser && user && follower.includes(currentUser.id)) {
+  //     // remove the user from the likes array
+  //     const removeUserFromFollowingArray = user.follower!.filter(
+  //       (follow: string) => follow !== currentUser.id
+  //     );
+  //     dispatch(
+  //       updateUser(
+  //         user.name,
+  //         user.email,
+  //         user.username,
+  //         user.password!,
+  //         user.bio!,
+  //         user.image!,
+  //         user.likes!,
+  //         removeUserFromFollowingArray,
+  //         user.register_date!,
+  //         user._id,
+  //       )
+  //     );
+  //     setFollowing(
+  //       following.filter((user: string) => user !== currentUser.id)
+  //     );
+  //   } else if (currentUser && user && !following.includes(currentUser.id)) {
+  //     dispatch(
+  //       updateUser(
+  //         user.name,
+  //         user.email,
+  //         user.username,
+  //         user.password!,
+  //         user.bio!,
+  //         user.image!,
+  //         user.likes!,
+  //         [...user.following!, currentUser.id],
+  //         user.register_date!,
+  //         user._id,
+  //       )
+  //     );
+  //     setFollowing([...following, currentUser.id]);
+  //     // setArticleLikes(articleLikes - 1);
+  //   }
+  // }
+
+  const handleClickFollow = (user: UserType) => {
+    console.log(user._id);
+    dispatch(followUser(user._id));
+    setFollowers([...followers, currentUser?.id]);
+  }
+  const handleClickUnfollow = (user: UserType) => {
+    console.log(user._id);
+    dispatch(unfollowUser(user._id));
+    setFollowers(followers.filter((user: string) => user !== currentUser?.id))
+  }
+
   const displayFollowButton = () => {
-    if (currentUser && following?.includes(currentUser.id)) {
+    if (isLoading === false && followers && currentUser && user && !followers.includes(currentUser.id)) {
       return (
-        <Button variant="outline-secondary" onClick={() => handleClick(user)}>
-          +Unfollow
-        </Button>
-      );
-    } else {
-      return (
-        <Button variant="outline-secondary" onClick={handleClick}>
+        <Button
+          variant="outline-secondary"
+          onClick={() => handleClickFollow(user)}
+        >
           +Follow
         </Button>
       );
-    }
-  }
-
-  const handleClick = (user: any) => {
-    console.log("foo");
-    if (isLoading) {
-      console.log("loading true")
-      return <div>Loading...</div>
-    } else {}
-    // If user is in the likes array and they click on the like button
-    if (currentUser && user && following.includes(currentUser.id)) {
-      // remove the user from the likes array
-      const removeUserFromFollowingArray = user.following!.filter(
-        (follow: string) => follow !== currentUser.id
+    } else if (isLoading === false && followers && currentUser && user && followers.includes(currentUser.id)) {
+      return (
+        <Button
+          variant="outline-secondary"
+          onClick={() => handleClickUnfollow(user)}
+        >
+          {" "}
+          +Unfollow{" "}
+        </Button>
       );
-      dispatch(
-        updateUser(
-          user.name,
-          user.email,
-          user.username,
-          user.password!,
-          user.bio!,
-          user.image!,
-          user.likes!,
-          removeUserFromFollowingArray,
-          user.register_date!,
-          user._id,
-        )
-      );
-      setFollowing(
-        following.filter((user: string) => user !== currentUser.id)
-      );
-    } else if (currentUser && user && !following.includes(currentUser.id)) {
-      dispatch(
-        updateUser(
-          user.name,
-          user.email,
-          user.username,
-          user.password!,
-          user.bio!,
-          user.image!,
-          user.likes!,
-          [...user.following!, currentUser.id],
-          user.register_date!,
-          user._id,
-        )
-      );
-      setFollowing([...following, currentUser.id]);
-      // setArticleLikes(articleLikes - 1);
     }
   }
 
@@ -116,12 +156,13 @@ const OtherUsersProfile: React.FC = () => {
       <Jumbotron className="text-center">
         <h1>Icon Here</h1>
         {username && <p>{username}</p>}
-        {currentUser && // ({
-        //   following.includes(currentUser.id) ? (
-        //     <Button variant="outline-secondary"> "+Unfollow" </Button>
-        //   ) : (<Button variant="outline-secondary"> "+Follow" </Button>)
-        // })
-        displayFollowButton()}
+        {isLoading ? <div>Loading...</div> : displayFollowButton()}
+        {/* {isLoading === false &&
+          currentUser && // ({
+            followers.includes(currentUser.id) ? (
+              <Button variant="outline-secondary"> "+Unfollow" </Button>
+            ) : (<Button variant="outline-secondary"> "+Follow" </Button>)
+          } */}
       </Jumbotron>
       <Container>
         <Tabs
