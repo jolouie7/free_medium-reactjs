@@ -86,7 +86,7 @@ const Article: React.FC = () => {
             <Col className="col-auto">User Profile Pic</Col>
             <Col className="col-auto">
               {allUsers.length !== 0 && displayUsernameArticleAuthor(article)}
-              <div>
+              <div className="text-muted">
                 {moment(article.registerDate).format("dddd, MMMM Do YYYY")}
               </div>
             </Col>
@@ -111,7 +111,7 @@ const Article: React.FC = () => {
         </Container>
       </Jumbotron>
       <Container>
-        <p>{article.content}</p>
+        <div dangerouslySetInnerHTML={{ __html: article.sanitizedHtml }}></div>
         <div>
           Tags:
           {article.tags &&

@@ -1,4 +1,7 @@
 import { RootStore } from "./../store";
+import slugify from "slugify";
+import marked from "marked";
+import DOMPurify from "dompurify";
 import backendHost from "../constants/api-config";
 import { Dispatch } from "redux";
 import {
@@ -107,22 +110,27 @@ export const updateArticle = (
   content: string,
   tags: string[],
   likes: string[],
-  id: string,
-  slug: string,
+  articleId: string,
+  slug: string
 ) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
+  let newSlug = slugify(title);
+  newSlug = newSlug + slug.slice(-6);
   // Have the unchanged info be passed from the component to this action
   const articleToUpdate = {
     title: title,
     subTitle: subTitle,
     content: content,
     tags: tags,
-    likes: likes
+    likes: likes,
+    articleId: articleId,
+    slug: newSlug,
+    sanitizedHtml: DOMPurify.sanitize(marked(content)),
   };
   dispatch({ type: ARTICLE_LOADING });
   // tokenConfig(getState), is attaching the token to the request in the header
   axios
-    .patch(
-      `${backendHost}/api/articles/${id}`,
+    .put(
+      `${backendHost}/api/articles/${articleId}`,
       articleToUpdate,
       tokenConfig(getState)
     )
@@ -133,7 +141,7 @@ export const updateArticle = (
       })
     )
     .catch((error) => {
-      console.log(error)
+      console.log(error);
       // dispatch(returnErrors(error.response.data, error.response.status));
       dispatch({
         type: ARTICLE_FAIL,
@@ -146,9 +154,10 @@ export const updateArticle = (
 export const likeArticle = (
   id: string,
 ) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
+  console.log("id: ", id)
   // Have the unchanged info be passed from the component to this action
   const articleToUpdate = {
-    id: id
+    articleId: id,
   };
   dispatch({ type: ARTICLE_LOADING });
   // tokenConfig(getState), is attaching the token to the request in the header
@@ -180,7 +189,7 @@ export const unlikeArticle = (
 ) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
   // Have the unchanged info be passed from the component to this action
   const articleToUpdate = {
-    id: id
+    articleId: id,
   };
   dispatch({ type: ARTICLE_LOADING });
   // tokenConfig(getState), is attaching the token to the request in the header
@@ -226,10 +235,10 @@ export const deleteArticle = (id: string) => (dispatch: Dispatch<ArticleDispatch
     });
 }
 
-// ****************************** Fetching Articles ****************************** //
-// ! Don't think i'm using this
-export const setArticleLoading = () => {
-  return {
-    type: ARTICLE_LOADING,
-  };
-};
+// // ****************************** Fetching Articles ****************************** //
+// // ! Don't think i'm using this
+// export const setArticleLoading = () => {
+//   return {
+//     type: ARTICLE_LOADING,
+//   };
+// };

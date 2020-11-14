@@ -38,6 +38,7 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
   };
 
   const handleClick: any = (article: ArticleType) => {
+    console.log(article)
     localStorage.setItem("articleInfo", JSON.stringify(article));
   };
 
@@ -101,7 +102,7 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
           <Col className="col-auto">Profile Pic</Col>
           <Col>
             {allUsers.length !== 0 && displayUsername(article)}
-            <div>
+            <div className="text-muted">
               {moment(article.registerDate).format("dddd, MMMM Do YYYY")}
             </div>
           </Col>
@@ -122,7 +123,7 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
           <Col>{article.title}</Col>
         </Row>
         <Row>
-          <Col>{article.subTitle}</Col>
+          <Col className="text-muted">{article.subTitle}</Col>
         </Row>
         <Row className="mt-3">
           <Col>

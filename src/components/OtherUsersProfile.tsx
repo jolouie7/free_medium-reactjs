@@ -8,8 +8,6 @@ import Container from "react-bootstrap/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../store";
 import {
-  getAllUsers,
-  updateUser,
   followUser,
   unfollowUser,
 } from "../actions/usersActions";
@@ -28,94 +26,6 @@ const OtherUsersProfile: React.FC = () => {
     setFollowers(user?.followers)
     setIsLoading(false)
   }, [user]) //when user goes from undefined to being populated
-
-  //option 1: use useEffect and set following based on if the user.id is in the following array
-  //option 2: Can you set false/true based on a condition in useState?
-
-  //The button text will display the corret text based on if the following state is true or false
-  //When the user clicks the follow button we trigger a onClick handler to dispatch a action to update the user in the db.
-  //after dispatching, set following to the opposite to what it was
-  // useEffect(() => {
-  //   const currentUserId: string | undefined = currentUser?.id;
-  //   if (currentUser && user?.following?.includes(currentUserId)) {
-  //     setFollowing(true);
-  //   }
-  // }, [])
-
-  // if (
-  //   (user?.following && user?.following.length === 0) ||
-  //   user === null ||
-  //   user === undefined
-  // ) {
-  //   setIsLoading(true);
-  // } else if (user?.following && !user?.following.length > 0) {
-  //   setIsLoading(false);
-  // }
-
-  // const displayFollowButton = () => {
-  //   if (isLoading === false && currentUser && followers.includes(currentUser.id)) {
-  //     return (
-  //       <Button variant="outline-secondary">
-  //         +Unfollow
-  //       </Button>
-  //     );
-  //   } else if (isLoading === false && currentUser && !followers.includes(currentUser.id)) {
-  //     return (
-  //       <Button variant="outline-secondary">
-  //         +Follow
-  //       </Button>
-  //     );
-  //   }
-  // }
-
-  // const handleClick = (user: any) => {
-  //   console.log("foo");
-  //   if (isLoading) {
-  //     console.log("loading true")
-  //     return <div>Loading...</div>
-  //   } else {}
-  //   // If user is in the likes array and they click on the like button
-  //   if (currentUser && user && follower.includes(currentUser.id)) {
-  //     // remove the user from the likes array
-  //     const removeUserFromFollowingArray = user.follower!.filter(
-  //       (follow: string) => follow !== currentUser.id
-  //     );
-  //     dispatch(
-  //       updateUser(
-  //         user.name,
-  //         user.email,
-  //         user.username,
-  //         user.password!,
-  //         user.bio!,
-  //         user.image!,
-  //         user.likes!,
-  //         removeUserFromFollowingArray,
-  //         user.register_date!,
-  //         user._id,
-  //       )
-  //     );
-  //     setFollowing(
-  //       following.filter((user: string) => user !== currentUser.id)
-  //     );
-  //   } else if (currentUser && user && !following.includes(currentUser.id)) {
-  //     dispatch(
-  //       updateUser(
-  //         user.name,
-  //         user.email,
-  //         user.username,
-  //         user.password!,
-  //         user.bio!,
-  //         user.image!,
-  //         user.likes!,
-  //         [...user.following!, currentUser.id],
-  //         user.register_date!,
-  //         user._id,
-  //       )
-  //     );
-  //     setFollowing([...following, currentUser.id]);
-  //     // setArticleLikes(articleLikes - 1);
-  //   }
-  // }
 
   const handleClickFollow = (user: UserType) => {
     console.log(user._id);
@@ -157,12 +67,6 @@ const OtherUsersProfile: React.FC = () => {
         <h1>Icon Here</h1>
         {username && <p>{username}</p>}
         {isLoading ? <div>Loading...</div> : displayFollowButton()}
-        {/* {isLoading === false &&
-          currentUser && // ({
-            followers.includes(currentUser.id) ? (
-              <Button variant="outline-secondary"> "+Unfollow" </Button>
-            ) : (<Button variant="outline-secondary"> "+Follow" </Button>)
-          } */}
       </Jumbotron>
       <Container>
         <Tabs
