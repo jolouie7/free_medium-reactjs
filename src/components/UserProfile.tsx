@@ -42,7 +42,7 @@ const Profile: React.FC = () => {
             )}
           </Tab>
           <Tab eventKey="liked-articles" title="Liked Articles">
-            <h1>Liked Articles</h1>
+            <h1>Feature to be implemented</h1>
           </Tab>
         </Tabs>
       </Container>

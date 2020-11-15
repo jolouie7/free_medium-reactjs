@@ -12,12 +12,16 @@ import {
   unfollowUser,
 } from "../actions/usersActions";
 import { UserType } from "../actions/authActionTypes";
+import { ArticleType } from "../actions/articleActionTypes";
+import GlobalArticle from "./GlobalArticle";
 
 const OtherUsersProfile: React.FC = () => {
   const dispatch = useDispatch()
   const { username } = useParams();
   const currentUser = useSelector((state: RootStore) => state.auth.user);
+  const articles: any = useSelector((state: RootStore) => state.articles); // putting "any" solves, Property 'articles' does not exist on type 'never'.
   const allUsers = useSelector((state: RootStore) => state.users.users);
+  const allArticles = articles.articles;
   const user = allUsers.find((user) => user.username === username);
   const [isLoading, setIsLoading] = useState(true)
   const [followers, setFollowers] = useState([] as any); //keep type any to prevent an error in the useEffect
@@ -75,7 +79,12 @@ const OtherUsersProfile: React.FC = () => {
         // onSelect={(k) => setKey(k)}
         >
           <Tab eventKey="my-articles" title="My Articles">
-            <h1>My Articles</h1>
+            {allArticles.length === 0 ? (
+              <div>Loading...</div>
+            ) : (
+              // filter all the articles based on currentUser id. Map through them and as props into GlobalArticle component
+              <div>{allArticles.filter((article: ArticleType) => article.user === user?._id).map((article: ArticleType, index: number) => <GlobalArticle article={article} index={index} key={index}/>)}</div>
+            )}
           </Tab>
           <Tab eventKey="liked-articles" title="Liked Articles">
             <h1>Liked Articles</h1>
