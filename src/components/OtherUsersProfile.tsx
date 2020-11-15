@@ -29,6 +29,7 @@ const OtherUsersProfile: React.FC = () => {
   useEffect(() => {
     setFollowers(user?.followers)
     setIsLoading(false)
+    window.scrollTo(0, 0);
   }, [user]) //when user goes from undefined to being populated
 
   const handleClickFollow = (user: UserType) => {
