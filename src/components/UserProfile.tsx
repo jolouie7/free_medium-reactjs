@@ -1,15 +1,17 @@
-import React, {useState} from 'react';
+import React, { useState } from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { MdSettings } from "react-icons/md";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
+import Col from "react-bootstrap/Col";
 
-import { RootStore } from '../store';
-import { ArticleType } from '../actions/articleActionTypes';
-import GlobalArticle from './GlobalArticle';
+import { RootStore } from "../store";
+import { ArticleType } from "../actions/articleActionTypes";
+import GlobalArticle from "./GlobalArticle";
 
 const Profile: React.FC = () => {
   const currentUser = useSelector((state: RootStore) => state.auth.user);
@@ -20,7 +22,13 @@ const Profile: React.FC = () => {
   return (
     <div>
       <Jumbotron className="text-center">
-        <h1>Icon Here</h1>
+        <Col className="text-center">
+          <Image
+            style={{ width: "5rem", height: "auto", border: "1px black solid" }}
+            src="https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
+            roundedCircle
+          />
+        </Col>
         {currentUser && <p>{currentUser.username}</p>}
         <Button variant="outline-secondary" href="/user-settings">
           Edit Profile Settings
@@ -38,8 +46,23 @@ const Profile: React.FC = () => {
               <div>Loading...</div>
             ) : (
               // filter all the articles based on currentUser id. Map through them and as props into GlobalArticle component
-              <div>{allArticles.filter((article: ArticleType) => article.user === currentUser?.id).map((article: ArticleType, index: number) => <GlobalArticle article={article} index={index} key={index}/>)}</div>
+              <div>
+                {allArticles
+                  .filter(
+                    (article: ArticleType) => article.user === currentUser?.id
+                  )
+                  .map((article: ArticleType, index: number) => (
+                    <GlobalArticle
+                      article={article}
+                      index={index}
+                      key={index}
+                    />
+                  ))}
+              </div>
             )}
+            {allArticles.filter(
+              (article: ArticleType) => article.user === currentUser?.id
+            ).length === 0 && <div>No articles are here... yet.</div>}
           </Tab>
           <Tab eventKey="liked-articles" title="Liked Articles">
             <h1>Feature to be implemented</h1>
@@ -48,6 +71,6 @@ const Profile: React.FC = () => {
       </Container>
     </div>
   );
-}
+};
 
-export default Profile
+export default Profile;

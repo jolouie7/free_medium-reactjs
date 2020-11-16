@@ -10,7 +10,6 @@ import {
 interface DefaultState {
   isLoading: boolean;
   users: UserType[];
-
 }
 
 const initialState: DefaultState = {

@@ -16,7 +16,7 @@ export type UserType = {
   username: string;
   password?: string;
   bio?: string;
-  image?: string;
+  image: string;
   likes?: string[];
   register_date?: Date; // might want to fix this
   token?: string;

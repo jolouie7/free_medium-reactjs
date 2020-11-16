@@ -30,7 +30,7 @@ const OtherUsersProfile: React.FC = () => {
     setFollowers(user?.followers)
     setIsLoading(false)
     window.scrollTo(0, 0);
-  }, [user]) //when user goes from undefined to being populated
+  }, [])
 
   const handleClickFollow = (user: UserType) => {
     console.log(user._id);
@@ -84,8 +84,21 @@ const OtherUsersProfile: React.FC = () => {
               <div>Loading...</div>
             ) : (
               // filter all the articles based on currentUser id. Map through them and as props into GlobalArticle component
-              <div>{allArticles.filter((article: ArticleType) => article.user === user?._id).map((article: ArticleType, index: number) => <GlobalArticle article={article} index={index} key={index}/>)}</div>
+              <div>
+                {allArticles
+                  .filter((article: ArticleType) => article.user === user?._id)
+                  .map((article: ArticleType, index: number) => (
+                    <GlobalArticle
+                      article={article}
+                      index={index}
+                      key={index}
+                    />
+                  ))}
+              </div>
             )}
+            {allArticles.filter(
+              (article: ArticleType) => article.user === user?._id
+            ).length === 0 && <div>No articles are here... yet.</div>}
           </Tab>
           <Tab eventKey="liked-articles" title="Liked Articles">
             <h1>Liked Articles</h1>
