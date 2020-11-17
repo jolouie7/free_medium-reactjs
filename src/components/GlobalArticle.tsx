@@ -3,6 +3,7 @@ import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
 import { ArticleType } from '../actions/articleActionTypes';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../store';
@@ -20,6 +21,11 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
   const auth: any = useSelector((state: RootStore) => state.auth);
   const allUsers: any = useSelector((state: RootStore) => state.users.users);
   const [articleLikes, setArticleLikes] = useState(article.likes);
+
+  const placeHolder =
+    "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png";
+
+    const filteredUser = allUsers.find((users: any) => users._id === article.user)
 
   // This function finds and displays the username of the person who wrote the article
   const displayUsername = (article: ArticleType) => {
@@ -99,7 +105,21 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
     <div key={index}>
       <Container>
         <Row className="mt-5 mb-3">
-          <Col className="col-auto">Profile Pic</Col>
+          <Col className="col-auto">
+            {allUsers.length !== 0 ? (
+              <Image
+                style={{
+                  width: "3rem",
+                  height: "auto",
+                  border: "1px black solid",
+                }}
+                src={filteredUser.image || placeHolder}
+                roundedCircle
+              />
+            ) : (
+              <div>Loading...</div>
+            )}
+          </Col>
           <Col>
             {allUsers.length !== 0 && displayUsername(article)}
             <div className="text-muted">

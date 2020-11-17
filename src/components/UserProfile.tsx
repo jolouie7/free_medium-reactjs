@@ -16,19 +16,13 @@ import GlobalArticle from "./GlobalArticle";
 const Profile: React.FC = () => {
   const currentUser = useSelector((state: RootStore) => state.auth.user);
   const users: any = useSelector((state: RootStore) => state.users.users);
-  // const [imageUrl, setImageUrl] = useState(currentUser?.image)
-  // const [url, setUrl] = useState<string>(
-  //   "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
-  // );
   const articles: any = useSelector((state: RootStore) => state.articles); // putting "any" solves, Property 'articles' does not exist on type 'never'.
   const allArticles = articles.articles;
 
   const placeHolder = "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
   // const [key, setKey] = useState("home");
 
-  // if (users.length !== 0 && currentUser) {
-    const filteredUser = users.find((user: any) => user._id === currentUser?.id)
-  // }
+  const filteredUser = users.find((user: any) => user._id === currentUser?.id)
 
   return (
     <div>
