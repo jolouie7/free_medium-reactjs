@@ -1,3 +1,4 @@
+import { UserType } from './authActionTypes';
 import { tokenConfig } from './authActions';
 import { Dispatch } from 'redux';
 import backendHost from "../constants/api-config";
@@ -64,7 +65,7 @@ export const updateUser = (
   dispatch({ type: USER_LOADING });
   // tokenConfig(getState), is attaching the token to the request in the header
   axios
-    .patch(
+    .put(
       `${backendHost}/api/users/${id}`,
       userToUpdate,
       tokenConfig(getState)
@@ -138,4 +139,28 @@ export const unfollowUser = (
         type: USER_FAIL,
       });
     });
+};
+
+// ****************************** Setup config/headers and token ****************************** //
+export const tokenConfigImageUpload = () => {
+  // Get token from localstorage
+  // const token: string = getState().auth.token;
+
+  // Headers
+  const config = {
+    headers: {
+      "accept": "application/json",
+      "Content-Type": "multipart/form-data",
+      // "Content-Type": "application/json",
+      // ! find out how to not have this key here and not get a TS error
+      // "x-auth-token": "",
+    },
+  };
+
+  // If token, add to headers
+  // if (token) {
+  //   config.headers["x-auth-token"] = token;
+  // }
+
+  return config;
 };

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
 import { useSelector } from "react-redux";
@@ -15,19 +15,37 @@ import GlobalArticle from "./GlobalArticle";
 
 const Profile: React.FC = () => {
   const currentUser = useSelector((state: RootStore) => state.auth.user);
+  const users: any = useSelector((state: RootStore) => state.users.users);
+  // const [imageUrl, setImageUrl] = useState(currentUser?.image)
+  // const [url, setUrl] = useState<string>(
+  //   "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
+  // );
   const articles: any = useSelector((state: RootStore) => state.articles); // putting "any" solves, Property 'articles' does not exist on type 'never'.
   const allArticles = articles.articles;
-  const [key, setKey] = useState("home");
+
+  const placeHolder = "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
+  // const [key, setKey] = useState("home");
+
+  // if (users.length !== 0 && currentUser) {
+    const filteredUser = users.find((user: any) => user._id === currentUser?.id)
+  // }
 
   return (
     <div>
       <Jumbotron className="text-center">
         <Col className="text-center">
+          {currentUser && users.length !== 0 ?
           <Image
-            style={{ width: "5rem", height: "auto", border: "1px black solid" }}
-            src="https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
+            style={{
+              width: "5rem",
+              height: "auto",
+              border: "1px black solid",
+            }}
+            src={filteredUser.image || placeHolder}
             roundedCircle
-          />
+          /> :
+          <div>Loading...</div>
+        }
         </Col>
         {currentUser && <p>{currentUser.username}</p>}
         <Button variant="outline-secondary" href="/user-settings">

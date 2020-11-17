@@ -11,28 +11,52 @@ const UserSettings: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const auth = useSelector((state: RootStore) => state.auth)
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-
   const currentUser = auth.user;
+  const [url, setUrl] = useState<string>(
+    "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
+  );
+  const [userSettings, setUserSettings] = useState({
+    id: currentUser?.id,
+    name: currentUser?.name,
+    email: currentUser?.email,
+    username: currentUser?.username,
+    password: "",
+    file: null,
+  });
 
-  useEffect(() => {
-    if (currentUser) {
-      // setProfilePicture()
-      setUsername(currentUser.username);
-      // setBio(currentUser.bio);
-      setEmail(currentUser.email);
-    }
-  }, [])
-
-
-  const handleChange = () => {
-
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUserSettings((prevState) => ({
+      ...prevState,
+      [event.target.name]: [event.target.value]
+    }))
   }
-  const handleSubmit = () => {
 
+  const handleFileUpload = async (file: any) => {
+    const imageData = new FormData();
+    imageData.append("image", file);
+
+    const url = `http://localhost:5000/api/upload/${userSettings.id}`;
+
+    const config = {
+      method: "POST",
+      body: imageData,
+    };
+
+    try {
+      const req = await fetch(url, config);
+      if (req.ok) {
+        const res = await req.json();
+        console.log(res);
+        if (res.success) {
+          setUrl(res.user.image);
+        }
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  };
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
   }
 
   const handleLogout = () => {
@@ -47,13 +71,15 @@ const UserSettings: React.FC = () => {
       </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label>URL of profile picture</Form.Label>
-          <Form.Control
-            type="text"
-            name="name"
-            value="URL of profile picture"
-            placeholder="URL of profile picture"
-            onChange={handleChange}
+          <Form.File
+            className="position-relative"
+            name="profilePicture"
+            type="file"
+            accept="image/png, image/jpeg"
+            onChange={(e: any) => {
+              handleFileUpload(e.target.files ? e.target.files[0] : url);
+            }}
+            label="Change Profile Picture"
           />
         </Form.Group>
         <Form.Group>
@@ -61,7 +87,7 @@ const UserSettings: React.FC = () => {
           <Form.Control
             type="text"
             name="username"
-            value={username}
+            value={userSettings.username}
             placeholder="Username"
             onChange={handleChange}
           />
@@ -82,7 +108,7 @@ const UserSettings: React.FC = () => {
           <Form.Control
             type="email"
             name="email"
-            value={email}
+            value={userSettings.email}
             placeholder="Email"
             onChange={handleChange}
           />
@@ -92,7 +118,7 @@ const UserSettings: React.FC = () => {
           <Form.Control
             type="password"
             name="password"
-            value={password}
+            value={userSettings.password}
             placeholder="New Password"
             onChange={handleChange}
           />

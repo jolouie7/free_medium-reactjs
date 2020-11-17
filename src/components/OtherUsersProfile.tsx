@@ -4,7 +4,9 @@ import Jumbotron from "react-bootstrap/Jumbotron";
 import Button from "react-bootstrap/Button";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
+import Col from "react-bootstrap/Col";
 import Container from "react-bootstrap/Container";
+import Image from "react-bootstrap/Image";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../store";
 import {
@@ -20,11 +22,15 @@ const OtherUsersProfile: React.FC = () => {
   const { username } = useParams();
   const currentUser = useSelector((state: RootStore) => state.auth.user);
   const articles: any = useSelector((state: RootStore) => state.articles); // putting "any" solves, Property 'articles' does not exist on type 'never'.
-  const allUsers = useSelector((state: RootStore) => state.users.users);
   const allArticles = articles.articles;
+  const allUsers = useSelector((state: RootStore) => state.users.users);
   const user = allUsers.find((user) => user.username === username);
   const [isLoading, setIsLoading] = useState(true)
   const [followers, setFollowers] = useState([] as any); //keep type any to prevent an error in the useEffect
+
+  const filteredUser = allUsers.find((users: any) => users._id === user?._id);
+  const placeHolder =
+    "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png";
 
   useEffect(() => {
     setFollowers(user?.followers)
@@ -69,7 +75,21 @@ const OtherUsersProfile: React.FC = () => {
   return (
     <div>
       <Jumbotron className="text-center">
-        <h1>Icon Here</h1>
+        <Col className="text-center">
+          {allUsers.length !== 0 ? (
+            <Image
+              style={{
+                width: "5rem",
+                height: "auto",
+                border: "1px black solid",
+              }}
+              src={filteredUser?.image || placeHolder}
+              roundedCircle
+            />
+          ) : (
+            <div>Loading...</div>
+          )}
+        </Col>
         {username && <p>{username}</p>}
         {isLoading ? <div>Loading...</div> : displayFollowButton()}
       </Jumbotron>
