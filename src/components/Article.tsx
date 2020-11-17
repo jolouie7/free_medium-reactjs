@@ -5,6 +5,7 @@ import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import Image from "react-bootstrap/Image";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../store";
 import { ArticleType } from "../actions/articleActionTypes";
@@ -22,12 +23,15 @@ const Article: React.FC = () => {
   const users: any = useSelector((state: RootStore) => state.users);
   const auth: any = useSelector((state: RootStore) => state.auth);
   const allUsers = users.users;
-
   const [content, setContent] = useState("");
-
+  
   // get article info from localstorage to persist data after refresh
   const articleInfo: any = localStorage.getItem("articleInfo");
   const article = JSON.parse(articleInfo);
+  
+  const placeHolder = "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
+  const filteredUser = allUsers.find((allUser: any) => allUser._id === article.user);
+  console.log(filteredUser)
 
   // This function finds and displays the username of the person who wrote the article
   const displayUsernameArticleAuthor = (article: ArticleType) => {
@@ -83,7 +87,21 @@ const Article: React.FC = () => {
         <Container>
           <h1>{article.title}</h1>
           <Row>
-            <Col className="col-auto">User Profile Pic</Col>
+            <Col className="col-auto">
+              {filteredUser && users.length !== 0 ? (
+                <Image
+                  style={{
+                    width: "3rem",
+                    height: "auto",
+                    border: "1px black solid",
+                  }}
+                  src={filteredUser.image || placeHolder}
+                  roundedCircle
+                />
+              ) : (
+                <div>Loading...</div>
+              )}
+            </Col>
             <Col className="col-auto">
               {allUsers.length !== 0 && displayUsernameArticleAuthor(article)}
               <div className="text-muted">
@@ -183,20 +201,6 @@ const Article: React.FC = () => {
                 </Container>
               </div>
             ))}
-        {/* <Container className="border">
-          <Row className="p-3">
-            <Col>
-              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus
-              nisi ducimus similique beatae numquam soluta commodi in aliquid,
-              laboriosam alias, dolore veritatis libero nesciunt laborum
-              temporibus qui nam atque ipsam?
-            </Col>
-          </Row>
-          <Row className="p-3 mb-2 bg-secondary text-white">
-            <Col>-jojo Sunday, November 8th 2020</Col>
-            <FaTrashAlt />
-          </Row>
-        </Container> */}
       </Container>
     </div>
   );

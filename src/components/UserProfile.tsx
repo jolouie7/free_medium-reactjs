@@ -28,18 +28,19 @@ const Profile: React.FC = () => {
     <div>
       <Jumbotron className="text-center">
         <Col className="text-center">
-          {currentUser && users.length !== 0 ?
-          <Image
-            style={{
-              width: "5rem",
-              height: "auto",
-              border: "1px black solid",
-            }}
-            src={filteredUser.image || placeHolder}
-            roundedCircle
-          /> :
-          <div>Loading...</div>
-        }
+          {filteredUser && currentUser && users.length !== 0 ? (
+            <Image
+              style={{
+                width: "5rem",
+                height: "auto",
+                border: "1px black solid",
+              }}
+              src={filteredUser.image || placeHolder}
+              roundedCircle
+            />
+          ) : (
+            <div>Loading...</div>
+          )}
         </Col>
         {currentUser && <p>{currentUser.username}</p>}
         <Button variant="outline-secondary" href="/user-settings">

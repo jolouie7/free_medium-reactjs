@@ -78,6 +78,7 @@ const CreateArticle: React.FC = () => {
             name="tags"
             value={tags}
             onChange={handleChange}
+            disabled
           />
         </Form.Group>
         <Button variant="primary" type="submit">

@@ -76,7 +76,7 @@ const OtherUsersProfile: React.FC = () => {
     <div>
       <Jumbotron className="text-center">
         <Col className="text-center">
-          {allUsers.length !== 0 ? (
+          {filteredUser && allUsers.length !== 0 ? (
             <Image
               style={{
                 width: "5rem",
