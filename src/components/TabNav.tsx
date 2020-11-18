@@ -9,13 +9,19 @@ const TabNav: React.FC = () => {
     <div>
       <Nav variant="tabs" defaultActiveKey="/global-feed">
         <Nav.Item>
-          <Nav.Link eventKey="/global-feed" data-value={0} onClick={() => setSelectedTab(0)}>
+          <Nav.Link
+            eventKey="/global-feed"
+            data-value={0}
+            onClick={() => setSelectedTab(0)}
+          >
             Global Feed
           </Nav.Link>
         </Nav.Item>
         {/* // TODO: This should be a private route comp */}
         <Nav.Item>
-          <Nav.Link eventKey="your-feed" onClick={() => setSelectedTab(1)}>Your Feed</Nav.Link>
+          <Nav.Link eventKey="your-feed" onClick={() => setSelectedTab(1)}>
+            Your Feed
+          </Nav.Link>
         </Nav.Item>
       </Nav>
       {selectedTab === 0 && <GlobalFeed />}
