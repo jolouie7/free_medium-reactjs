@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Button from "react-bootstrap/Button";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../store';
 import { Link } from 'react-router-dom';
 import moment from "moment";
-import { getArticles, likeArticle, unlikeArticle } from '../actions/articleActions';
+import { likeArticle, unlikeArticle } from '../actions/articleActions';
 
 interface Props {
   article: ArticleType;
@@ -19,6 +19,7 @@ interface Props {
 const GlobalArticle: React.FC<Props> = ({article, index}) => {
   const dispatch = useDispatch();
   const auth: any = useSelector((state: RootStore) => state.auth);
+  console.log(auth.user)
   const allUsers: any = useSelector((state: RootStore) => state.users.users);
   const [articleLikes, setArticleLikes] = useState(article.likes);
 
@@ -47,44 +48,6 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
     console.log(article)
     localStorage.setItem("articleInfo", JSON.stringify(article));
   };
-
-  // * HANDLE CLICK I MADE
-  // const handleLikeClick = (article: ArticleType) => {
-  //   console.log("handleLikeClick")
-  //   // If user is in the likes array and they click on the like button
-  //   if (auth.user && articleLikes.includes(auth.user.id)) {
-  //     // remove the user from the likes array
-  //     const removeUserFromLikesArray = article.likes.filter(
-  //       (like: string) => like !== auth.user.id
-  //     );
-  //     dispatch(
-  //       updateArticle(
-  //         article.title,
-  //         article.subTitle,
-  //         article.content,
-  //         article.tags,
-  //         removeUserFromLikesArray,
-  //         article._id,
-  //         article.slug
-  //       )
-  //     );
-  //     setArticleLikes(articleLikes.filter((user: string) => user !== auth.user.id));
-  //   } else if (auth.user && !articleLikes.includes(auth.user.id)) {
-  //     dispatch(
-  //       updateArticle(
-  //         article.title,
-  //         article.subTitle,
-  //         article.content,
-  //         article.tags,
-  //         [...article.likes, auth.user.id],
-  //         article._id,
-  //         article.slug
-  //       )
-  //     );
-  //     setArticleLikes([...articleLikes, auth.user.id]);
-  //     // setArticleLikes(articleLikes - 1);
-  //   }
-  // };
   
   const handleLikeClick = (article: ArticleType) => {
     // If user is in the likes array and they click on the like button
@@ -100,6 +63,33 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
       setArticleLikes([...articleLikes, auth.user.id]);
     }
   };
+
+  const showLikeButton = () => {
+    if (auth.isAuthenticated === false) {
+      return (
+        <Button
+          variant="outline-success"
+        >
+          Likes: {articleLikes.length}
+        </Button>
+      );
+    } else if (auth.user && articleLikes.includes(auth.user.id)) {
+      return (
+        <Button variant="success" onClick={() => handleLikeClick(article)}>
+          Likes: {articleLikes.length}
+        </Button>
+      );
+    } else if (auth.user && !articleLikes.includes(auth.user.id)) {
+      return (
+        <Button
+          variant="outline-success"
+          onClick={() => handleLikeClick(article)}
+        >
+          Likes: {articleLikes.length}
+        </Button>
+      );
+    }
+  }
   
   return (
     <div key={index}>
@@ -127,16 +117,7 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
             </div>
           </Col>
           <Col className="col-auto ml-auto">
-            {auth.user ? (
-              <Button
-                variant="primary"
-                onClick={() => handleLikeClick(article)}
-              >
-                Likes: {articleLikes.length}
-              </Button>
-            ) : (
-              <Button variant="primary">Likes: {articleLikes.length}</Button>
-            )}
+            {showLikeButton()}
           </Col>
         </Row>
         <Row>
