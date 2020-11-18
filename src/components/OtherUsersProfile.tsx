@@ -28,9 +28,13 @@ const OtherUsersProfile: React.FC = () => {
   const [isLoading, setIsLoading] = useState(true)
   const [followers, setFollowers] = useState([] as any); //keep type any to prevent an error in the useEffect
 
-  const filteredUser = allUsers.find((users: any) => users._id === user?._id);
   const placeHolder =
     "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png";
+  const filteredUser = allUsers.find((users: UserType) => users._id === user?._id);
+  const reversedAllArticles = [...allArticles].reverse();
+  const filteredArticles = reversedAllArticles.filter((article: ArticleType) =>
+    filteredUser?.likes?.includes(article._id)
+  );
 
   useEffect(() => {
     setFollowers(user?.followers)
@@ -121,7 +125,15 @@ const OtherUsersProfile: React.FC = () => {
             ).length === 0 && <div>No articles are here... yet.</div>}
           </Tab>
           <Tab eventKey="liked-articles" title="Liked Articles">
-            <h1>Liked Articles</h1>
+            {allArticles ? (
+              <div>
+                {filteredArticles.map((article: ArticleType, index: number) => (
+                  <GlobalArticle article={article} index={index} key={index} />
+                ))}
+              </div>
+            ) : (
+              <div>Loading...</div>
+            )}
           </Tab>
         </Tabs>
       </Container>

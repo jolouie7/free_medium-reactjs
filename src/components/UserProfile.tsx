@@ -12,6 +12,7 @@ import Col from "react-bootstrap/Col";
 import { RootStore } from "../store";
 import { ArticleType } from "../actions/articleActionTypes";
 import GlobalArticle from "./GlobalArticle";
+import { UserType } from "../actions/authActionTypes";
 
 const Profile: React.FC = () => {
   const currentUser = useSelector((state: RootStore) => state.auth.user);
@@ -22,8 +23,9 @@ const Profile: React.FC = () => {
   const placeHolder = "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
   // const [key, setKey] = useState("home");
 
-  const filteredUser = users.find((user: any) => user._id === currentUser?.id)
-  const filteredArticles = allArticles.filter((article: any) =>
+  const filteredUser = users.find((user: UserType) => user._id === currentUser?.id)
+  const reversedAllArticles = [...allArticles].reverse();
+  const filteredArticles = reversedAllArticles.filter((article: ArticleType) =>
     filteredUser?.likes?.includes(article._id)
   );
 
