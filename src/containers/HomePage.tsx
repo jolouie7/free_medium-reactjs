@@ -12,7 +12,10 @@ const HomePage: React.FC = () => {
           <Col sm={10}>
             <TabNav />
           </Col>
-          <Col sm={2}>Popular Tags</Col>
+          <Col sm={2}>
+            Popular Tags
+            <div>Coming Soon</div>
+          </Col>
         </Row>
       </Container>
     </div>
