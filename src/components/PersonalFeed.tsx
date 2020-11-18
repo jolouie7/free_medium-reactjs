@@ -16,7 +16,6 @@ const PersonalFeed: React.FC = () => {
   const filteredArticles = reversedAllArticles.filter((article: ArticleType) =>
     filteredUser?.following?.includes(article.user)
   );
-  console.log(filteredUser)
   return (
     <div>
       {filteredArticles.length > 0 ? (

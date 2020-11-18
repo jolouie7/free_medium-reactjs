@@ -49,8 +49,6 @@ const EditArticle: React.FC = () => {
     }
   };
 
-  // console.log(article)
-
   return (
     <Container className="mt-4">
       <Form onSubmit={handleSubmit}>

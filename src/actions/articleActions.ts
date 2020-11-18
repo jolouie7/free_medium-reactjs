@@ -1,4 +1,3 @@
-import { RootStore } from "./../store";
 import slugify from "slugify";
 import marked from "marked";
 import DOMPurify from "dompurify";
@@ -65,7 +64,6 @@ export const getOneArticle = (slug: string) => (
 };
 
 // ****************************** Create an article ****************************** //
-// ! test
 export const createArticle = (
   title: string,
   subTitle: string,
@@ -73,13 +71,6 @@ export const createArticle = (
   tags: string,
   user: string
 ) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
-  // Headers
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
   // Request body
   const body = JSON.stringify({ title, subTitle, content, tags, user });
 
@@ -103,7 +94,6 @@ export const createArticle = (
 };
 
 // ****************************** Update an article ****************************** //
-// ! test
 export const updateArticle = (
   title: string,
   subTitle: string,
@@ -150,11 +140,9 @@ export const updateArticle = (
 };
 
 // ****************************** Like article ****************************** //
-// ! tested
 export const likeArticle = (
   id: string,
 ) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
-  console.log("id: ", id)
   // Have the unchanged info be passed from the component to this action
   const articleToUpdate = {
     articleId: id,
@@ -215,7 +203,6 @@ export const unlikeArticle = (
 };
 
 // ****************************** Delete an article ****************************** //
-// ! test
 export const deleteArticle = (id: string) => (dispatch: Dispatch<ArticleDispatchTypes>, getState: () => void) => {
   dispatch({ type: ARTICLE_LOADING });
   // tokenConfig(getState), is attaching the token to the request in the header
@@ -234,11 +221,3 @@ export const deleteArticle = (id: string) => (dispatch: Dispatch<ArticleDispatch
       });
     });
 }
-
-// // ****************************** Fetching Articles ****************************** //
-// // ! Don't think i'm using this
-// export const setArticleLoading = () => {
-//   return {
-//     type: ARTICLE_LOADING,
-//   };
-// };

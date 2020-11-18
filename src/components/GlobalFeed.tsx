@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { ArticleType } from '../actions/articleActionTypes';
 import { RootStore } from '../store';
 import GlobalArticle from './GlobalArticle';
 
@@ -12,7 +13,7 @@ const GlobalFeed: React.FC = () => {
     <div>
       {allArticles.length === 0 && <div>Loading...</div>}
       {allArticles.length !== 0 &&
-        reversedArticles.map((article: any, index: number) => (
+        reversedArticles.map((article: ArticleType, index: number) => (
           <GlobalArticle article={article} index={index} key={index} />
         ))}
     </div>

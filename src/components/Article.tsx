@@ -10,8 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootStore } from "../store";
 import { ArticleType } from "../actions/articleActionTypes";
 import moment from "moment";
-import { deleteArticle, updateArticle } from "../actions/articleActions";
-import { Link, Redirect, useHistory } from "react-router-dom";
+import { deleteArticle } from "../actions/articleActions";
+import { Link, useHistory } from "react-router-dom";
 import { CommentType } from "../actions/commentActionTypes";
 import { createComments, deleteComment } from "../actions/commentActions";
 import { FaTrashAlt } from "react-icons/fa";
@@ -31,7 +31,6 @@ const Article: React.FC = () => {
   
   const placeHolder = "https://free-medium-profile-pictures.s3-us-west-1.amazonaws.com/defaultUserImage74a49f63-d.png"
   const filteredUser = allUsers.find((allUser: any) => allUser._id === article.user);
-  console.log(filteredUser)
 
   // This function finds and displays the username of the person who wrote the article
   const displayUsernameArticleAuthor = (article: ArticleType) => {
@@ -178,10 +177,6 @@ const Article: React.FC = () => {
                   <Row className="py-3 bg-secondary text-white">
                     <Col className="col-auto">
                       -{" "}
-                      {/* {allUsers.length !== 0 &&
-                          allUsers.find(
-                            (user: any) => user._id === comment.user
-                          ).username} */}
                       {allUsers.length !== 0 &&
                         displayUsernameCommentAuthor(comment)}
                     </Col>

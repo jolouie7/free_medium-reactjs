@@ -19,7 +19,6 @@ interface Props {
 const GlobalArticle: React.FC<Props> = ({article, index}) => {
   const dispatch = useDispatch();
   const auth: any = useSelector((state: RootStore) => state.auth);
-  console.log(auth.user)
   const allUsers: any = useSelector((state: RootStore) => state.users.users);
   const [articleLikes, setArticleLikes] = useState(article.likes);
 
@@ -33,7 +32,6 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
     const articleUserWrote = allUsers.find(
       (user: any) => user._id === article.user
     );
-    // console.log(articleUserWrote)
     return (
       <Link
         style={{ color: "inherit" }}
@@ -45,20 +43,17 @@ const GlobalArticle: React.FC<Props> = ({article, index}) => {
   };
 
   const handleClick: any = (article: ArticleType) => {
-    console.log(article)
     localStorage.setItem("articleInfo", JSON.stringify(article));
   };
   
   const handleLikeClick = (article: ArticleType) => {
     // If user is in the likes array and they click on the like button
     if (auth.user && articleLikes.includes(auth.user.id)) {
-      console.log("already in likes")
       dispatch(unlikeArticle(article._id));
       setArticleLikes(
         articleLikes.filter((user: string) => user !== auth.user.id)
       );
     } else if (auth.user && !articleLikes.includes(auth.user.id)) {
-      console.log("not in likes");
       dispatch(likeArticle(article._id));
       setArticleLikes([...articleLikes, auth.user.id]);
     }
