@@ -23,6 +23,9 @@ const Profile: React.FC = () => {
   // const [key, setKey] = useState("home");
 
   const filteredUser = users.find((user: any) => user._id === currentUser?.id)
+  const filteredArticles = allArticles.filter((article: any) =>
+    filteredUser?.likes?.includes(article._id)
+  );
 
   return (
     <div>
@@ -78,7 +81,11 @@ const Profile: React.FC = () => {
             ).length === 0 && <div>No articles are here... yet.</div>}
           </Tab>
           <Tab eventKey="liked-articles" title="Liked Articles">
-            <h1>Feature to be implemented</h1>
+            {allArticles ? (
+              <div>{filteredArticles.map((article: ArticleType, index: number) => <GlobalArticle article={article} index={index} key={index} />)}</div>
+            ) : (
+              <div>Loading...</div>
+            )}
           </Tab>
         </Tabs>
       </Container>

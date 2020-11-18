@@ -6,6 +6,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootStore } from '../store';
 import { logout } from '../actions/authActions';
+import backendHost from '../constants/api-config';
 
 const UserSettings: React.FC = () => {
   const history = useHistory();
@@ -35,7 +36,7 @@ const UserSettings: React.FC = () => {
     const imageData = new FormData();
     imageData.append("image", file);
 
-    const url = `http://localhost:5000/api/upload/${userSettings.id}`;
+    const url = `${backendHost}/api/upload/${userSettings.id}`;
 
     const config = {
       method: "POST",
