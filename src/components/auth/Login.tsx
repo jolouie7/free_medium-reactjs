@@ -38,7 +38,7 @@ const Login: React.FC = () => {
       </div>
       <Form onSubmit={handleSubmit}>
         <Form.Group>
-          <Form.Label>Email address</Form.Label>
+          <Form.Label>Username</Form.Label>
           <Form.Control
             type="text"
             name="username"
