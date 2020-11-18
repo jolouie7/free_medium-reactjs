@@ -3,8 +3,8 @@ let backendHost: string;
 
 const hostname = window && window.location && window.location.hostname;
 
-if (hostname === "my-personal-expense-tracker.herokuapp.com") {
-  backendHost = "https://my-personal-expense-tracker.herokuapp.com";
+if (hostname === "free-medium-mern.herokuapp.com") {
+  backendHost = "https://free-medium-mern.herokuapp.com/";
 } else if (/^qa/.test(hostname)) {
   backendHost = `https://api.${hostname}`;
 } else {
