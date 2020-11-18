@@ -20,62 +20,13 @@ const GlobalFeed: React.FC = () => {
   const [isLoading, setisLoading] = useState(false)
   const allUsers = users.users;
   const allArticles = articles.articles
-
-  // useEffect(() => {
-  //   dispatch(getArticles());
-  // }, [articles.articles.likes])
-
-  // // This function finds and displays the username of the person who wrote the article
-  // const displayUsername = (article: ArticleType) => {
-  //   const articleUserWrote = allUsers.find((user: any) => user._id === article.user);
-  //   // console.log(articleUserWrote)
-  //   return (
-  //     <Link style={{ color: "inherit" }} to={`/profile/${articleUserWrote.username}`}>{articleUserWrote.username}</Link>
-  //   )
-  // }
-
-  // const handleClick: any = (article: ArticleType) => {
-  //   localStorage.setItem("articleInfo", JSON.stringify(article));
-  // }
-
-  // const handleLikeClick = (article: ArticleType) => {
-  //   // If user is in the likes array and they click on the like button
-  //   if (auth.user && article.likes.includes(auth.user.id)) {
-  //     // remove the user from the likes array
-  //     const removeUserFromLikesArray = article.likes.filter((like: string) => like !== auth.user.id)
-  //     dispatch(
-  //       updateArticle(
-  //         article.title,
-  //         article.subTitle,
-  //         article.content,
-  //         article.tags,
-  //         removeUserFromLikesArray,
-  //         article._id,
-  //         article.slug
-  //       )
-  //     );
-  //     return <div>Likes:: {article.likes.length}</div>;
-  //   } else if (auth.user && !article.likes.includes(auth.user.id)) {
-  //     dispatch(
-  //       updateArticle(
-  //         article.title,
-  //         article.subTitle,
-  //         article.content,
-  //         article.tags,
-  //         [...article.likes, auth.user.id],
-  //         article._id,
-  //         article.slug
-  //       )
-  //     );
-  //     return <div>Likes:: {article.likes.length}</div>;
-  //   }
-  // };
+  const reversedArticles = [...allArticles].reverse()
 
   return (
     <div>
       {allArticles.length === 0 && <div>Loading...</div>}
       {allArticles.length !== 0 &&
-        allArticles.map((article: any, index: number) => (
+        reversedArticles.map((article: any, index: number) => (
           <GlobalArticle article={article} index={index} key={index} />
         ))}
     </div>
