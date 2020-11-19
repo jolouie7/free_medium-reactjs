@@ -56,6 +56,7 @@ const UserSettings: React.FC = () => {
       console.log(err);
     }
   };
+  
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
   }
